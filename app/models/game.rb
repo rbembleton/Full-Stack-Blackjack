@@ -25,7 +25,7 @@ class Game < ActiveRecord::Base
 
   def start
     return if self.users.count == 0
-    
+
     d = Deck.new_full_deck(self.id)
     dp = DiscardPile.create!(game_id: self.id)
     dlr = Dealer.create!(game_id: self.id)
@@ -46,7 +46,49 @@ class Game < ActiveRecord::Base
 
   end
 
-  def end
+  def make_move(move_type)
+    return if @current_user.id != self.turn_id
+
+    case move_type
+    when :hit
+      User.find(self.turn_id).hit_me
+    when :stand
+      next_player
+    end
+  end
+
+  def next_player
+
+    game_players = players.to_a
+    curr_idx = game_players.find_index { |player| player.class.to_s == turn_type && player.id == turn_id }
+
+    self.update!(turn_id: players[curr_idx + 1].id, turn_type: players[curr_idx + 1].class.to_s)
+
+    if self.turn_type == 'Dealer'
+      finish_game
+    end
+
+  end
+
+  def finish_game
+    dealer.take_turn
+    winner
+  end
+
+  def winner
+    highest_hand = 0
+    current_winner = nil
+    self.hands.each do |hand|
+      if !hand.busted? && hand.best_value > highest_hand
+        highest_hand = hand.best_value
+        current_winner = { player_id: hand.player_id, player_type: hand.player_type }
+      end
+    end
+
+    current_winner
+  end
+
+  def clear
     Deck.destroy_all(game_id: self.id)
     DiscardPile.destroy_all(game_id: self.id)
     Card.where(game_id: self.id).destroy_all

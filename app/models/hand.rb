@@ -14,7 +14,24 @@ class Hand < ActiveRecord::Base
   # has_one :game, through: :player
 
   def is_busted?
-    self.cards.inject(:+) > 21
+    self.best_value > 21
+  end
+
+  def best_value
+    aces = self.cards.count { |card| card.rank == 1 }
+    sum = lowest_value
+
+    while aces >= 1 && sum <= 11
+      aces -= 1
+      sum += 10
+    end
+
+    sum
+
+  end
+
+  def lowest_value
+    self.cards.inject { |accum, card| accum + card.rank }
   end
 
 

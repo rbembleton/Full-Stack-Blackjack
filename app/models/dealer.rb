@@ -21,4 +21,11 @@ class Dealer < ActiveRecord::Base
     )
   end
 
+  def take_turn
+    until self.hand.best_value >= 17 do
+      self.hit_me
+    end
+
+  end
+
 end
