@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160921130856) do
+ActiveRecord::Schema.define(version: 20160921144638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,12 @@ ActiveRecord::Schema.define(version: 20160921130856) do
 
   add_index "cards", ["game_id"], name: "index_cards_on_game_id", using: :btree
   add_index "cards", ["location_id", "location_type"], name: "index_cards_on_location_id_and_location_type", using: :btree
+
+  create_table "dealers", force: :cascade do |t|
+    t.integer "game_id", null: false
+  end
+
+  add_index "dealers", ["game_id"], name: "index_dealers_on_game_id", unique: true, using: :btree
 
   create_table "decks", force: :cascade do |t|
     t.integer "game_id", null: false
@@ -45,19 +51,20 @@ ActiveRecord::Schema.define(version: 20160921130856) do
   end
 
   create_table "hands", force: :cascade do |t|
-    t.integer "player_id", null: false
+    t.integer "player_id",   null: false
+    t.string  "player_type", null: false
   end
 
-  add_index "hands", ["player_id"], name: "index_hands_on_player_id", unique: true, using: :btree
+  add_index "hands", ["player_id", "player_type"], name: "index_hands_on_player_id_and_player_type", using: :btree
 
-  create_table "players", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string  "username",        null: false
     t.string  "session_token",   null: false
     t.string  "password_digest", null: false
     t.integer "game_id"
   end
 
-  add_index "players", ["session_token"], name: "index_players_on_session_token", unique: true, using: :btree
-  add_index "players", ["username"], name: "index_players_on_username", unique: true, using: :btree
+  add_index "users", ["session_token"], name: "index_users_on_session_token", unique: true, using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
 end

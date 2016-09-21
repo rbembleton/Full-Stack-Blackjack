@@ -15,9 +15,9 @@ class Deck < ActiveRecord::Base
 
   def self.new_full_deck(game_id)
     d = Deck.create!(game_id: game_id)
-    ro = (1..52).to_a.shuffle
+    ro = (0..51).to_a.shuffle
 
-    1.upto(52) do |card_num|
+    0.upto(51) do |card_num|
       Card.create!(
         game_id: game_id,
         num: card_num,
@@ -31,7 +31,7 @@ class Deck < ActiveRecord::Base
   end
 
   def deal(num)
-    self.cards.order(:order).count(num)
+    self.cards.order(:order).limit(num)
   end
 
 end

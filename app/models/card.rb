@@ -16,4 +16,34 @@ class Card < ActiveRecord::Base
   belongs_to :location, polymorphic: true
   belongs_to :game
 
+  SUIT_CONV = {
+    0 => :clubs,
+    1 => :diamonds,
+    2 => :hearts,
+    3 => :spades
+  }
+
+  COLOR_CONV = {
+    clubs: :black,
+    spades: :black,
+    hearts: :red,
+    diamonds: :red
+  }
+
+  def rank
+    self.num % 13 + 1
+  end
+
+  def ace?
+    rank == 1
+  end
+
+  def suit
+    SUIT_CONV[self.num / 4]
+  end
+
+  def color
+    COLOR_CONV[suit]
+  end
+
 end
