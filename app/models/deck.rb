@@ -31,7 +31,9 @@ class Deck < ActiveRecord::Base
   end
 
   def deal(num)
-    self.cards.order(:order).limit(num)
+    (!num || num == 1 ) ?
+      self.card.order(:order).first :
+      self.cards.order(:order).limit(num)
   end
 
 end

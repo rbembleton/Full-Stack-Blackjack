@@ -34,6 +34,14 @@ class User < ActiveRecord::Base
     self.update!(game_id: nil)
   end
 
+  def hit_me
+    self.game.deck.deal.update!(
+      location_id: self.hand.id,
+      location_type: 'Hand',
+      order: self.hand.count
+    )
+  end
+
   ## AUTH
 
   def self.generate_session_token

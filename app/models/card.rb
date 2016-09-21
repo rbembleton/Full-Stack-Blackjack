@@ -8,6 +8,7 @@
 #  location_id   :integer          not null
 #  location_type :string           not null
 #  order         :integer          not null
+#  hidden        :boolean          default(FALSE)
 #
 
 class Card < ActiveRecord::Base
@@ -44,6 +45,10 @@ class Card < ActiveRecord::Base
 
   def color
     COLOR_CONV[suit]
+  end
+
+  def uncover
+    self.update!(hidden: false)
   end
 
 end

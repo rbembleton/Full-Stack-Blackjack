@@ -13,6 +13,9 @@ class Hand < ActiveRecord::Base
   belongs_to :player, polymorphic: true
   # has_one :game, through: :player
 
+  def is_busted?
+    self.cards.inject(:+) > 21
+  end
 
 
 end
