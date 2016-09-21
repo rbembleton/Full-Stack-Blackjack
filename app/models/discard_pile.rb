@@ -8,5 +8,7 @@
 
 class DiscardPile < ActiveRecord::Base
 
+  belongs_to :game
+  has_many :cards, as: :location
 
 end

@@ -8,5 +8,7 @@
 
 class Hand < ActiveRecord::Base
 
+  has_many :cards, as: :location
+  belongs_to :player
 
 end

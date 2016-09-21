@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160921125956) do
+ActiveRecord::Schema.define(version: 20160921130856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,10 +21,11 @@ ActiveRecord::Schema.define(version: 20160921125956) do
     t.integer "num",           null: false
     t.integer "location_id",   null: false
     t.string  "location_type", null: false
-    t.integer "position",      null: false
+    t.integer "order",         null: false
   end
 
   add_index "cards", ["game_id"], name: "index_cards_on_game_id", using: :btree
+  add_index "cards", ["location_id", "location_type"], name: "index_cards_on_location_id_and_location_type", using: :btree
 
   create_table "decks", force: :cascade do |t|
     t.integer "game_id", null: false
