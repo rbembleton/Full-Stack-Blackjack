@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160921174219) do
+ActiveRecord::Schema.define(version: 20160922003759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,7 +51,10 @@ ActiveRecord::Schema.define(version: 20160921174219) do
     t.datetime "updated_at"
     t.integer  "turn_id",    default: 0
     t.string   "turn_type"
+    t.string   "winner"
   end
+
+  add_index "games", ["turn_id", "turn_type"], name: "index_games_on_turn_id_and_turn_type", using: :btree
 
   create_table "hands", force: :cascade do |t|
     t.integer "player_id",   null: false

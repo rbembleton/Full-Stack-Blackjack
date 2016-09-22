@@ -35,10 +35,10 @@ class User < ActiveRecord::Base
   end
 
   def hit_me
-    self.game.deck.deal.update!(
+    self.game.deck.deal(1).update!(
       location_id: self.hand.id,
       location_type: 'Hand',
-      order: self.hand.count
+      order: self.hand.cards.count
     )
   end
 
@@ -46,14 +46,14 @@ class User < ActiveRecord::Base
 
   def self.generate_session_token
     token = SecureRandom.urlsafe_base64(16)
-      while user.exists?(session_token: token)
+      while User.exists?(session_token: token)
         token = SecureRandom.urlsafe_base64(16)
       end
     token
   end
 
   def self.find_by_credentials(credentials)
-    user = user.find_by(username: credentials[:username])
+    user = User.find_by(username: credentials[:username])
     return user if user && user.valid_password?(credentials[:password])
   end
 

@@ -30,9 +30,9 @@ class Deck < ActiveRecord::Base
     d
   end
 
-  def deal(num)
-    (!num || num == 1 ) ?
-      self.card.order(:order).first :
+  def deal(num = 1)
+    return (num == 1 ) ?
+      self.cards.order(:order).first :
       self.cards.order(:order).limit(num)
   end
 

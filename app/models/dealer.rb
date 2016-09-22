@@ -13,17 +13,19 @@ class Dealer < ActiveRecord::Base
   belongs_to :game
   has_one :hand, as: :player
 
+
   def hit_me
-    self.game.deck.deal.update!(
+    self.game.deck.deal(1).update!(
       location_id: self.hand.id,
       location_type: 'Hand',
-      order: self.hand.count
+      order: self.hand.cards.count
     )
   end
 
   def take_turn
-    until self.hand.best_value >= 17 do
+    until self.hand.best_value < 17 do
       self.hit_me
+      self.hand.reload
     end
 
   end

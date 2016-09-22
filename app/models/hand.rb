@@ -13,12 +13,12 @@ class Hand < ActiveRecord::Base
   belongs_to :player, polymorphic: true
   # has_one :game, through: :player
 
-  def is_busted?
+  def busted?
     self.best_value > 21
   end
 
   def best_value
-    aces = self.cards.count { |card| card.rank == 1 }
+    aces = self.cards.count { |card| card.value == 1 }
     sum = lowest_value
 
     while aces >= 1 && sum <= 11
@@ -31,8 +31,17 @@ class Hand < ActiveRecord::Base
   end
 
   def lowest_value
-    self.cards.inject { |accum, card| accum + card.rank }
+    self.cards.inject(0) { |accum, card| accum + card.value }
   end
+
+  def show
+    show_arr = []
+    cards.each do |card|
+      show_arr.push(card.name)
+    end
+    show_arr
+  end
+
 
 
 end

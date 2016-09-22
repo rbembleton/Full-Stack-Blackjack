@@ -31,16 +31,37 @@ class Card < ActiveRecord::Base
     diamonds: :red
   }
 
+  RANK_CONV = {
+    1 => :ace,
+    2 => :two,
+    3 => :three,
+    4 => :four,
+    5 => :five,
+    6 => :six,
+    7 => :seven,
+    8 => :eight,
+    9 => :nine,
+    10 => :ten,
+    11 => :jack,
+    12 => :queen,
+    13 => :king
+  }
+
+  def value
+    val = self.num % 13 + 1
+    return val > 10 ? 10 : val
+  end
+
   def rank
-    self.num % 13 + 1
+    RANK_CONV[self.num % 13 + 1]
   end
 
   def ace?
-    rank == 1
+    self.rank == 1
   end
 
   def suit
-    SUIT_CONV[self.num / 4]
+    SUIT_CONV[self.num / 13]
   end
 
   def color
@@ -49,6 +70,10 @@ class Card < ActiveRecord::Base
 
   def uncover
     self.update!(hidden: false)
+  end
+
+  def name
+    return "#{self.rank.to_s.capitalize} of #{self.suit.to_s.capitalize}"
   end
 
 end
