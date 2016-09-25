@@ -1,9 +1,8 @@
-
 var path = require("path");
 
 module.exports = {
   context: __dirname,
-  entry: "./frontend/application.jsx",
+  entry: "./javascript/index.js",
   output: {
     path: path.join(__dirname, 'app', 'assets', 'javascripts'),
     filename: "bundle.js"
@@ -18,7 +17,8 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel',
         query: {
-          presets: ['react', 'es2015']
+          presets: ['react', 'es2015'],
+          plugins: ["transform-object-rest-spread"]
         }
       },
       {
