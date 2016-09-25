@@ -1,7 +1,7 @@
 class Api::UsersController < ApplicationController
 
   def create
-    @user = User.new(user_params)
+    @user = User.new(sign_up_params)
 
     if @user.save
       sign_in(@user)
@@ -22,14 +22,18 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def
+
 
   private
 
-  def user_params
+  def sign_up_params
     params.require(:user).permit(
       :password,
       :username
     )
   end
+
+  def 
 
 end

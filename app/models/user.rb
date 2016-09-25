@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
     self.update!(game_id: game_id)
   end
 
-  def leave()
+  def leave
     self.update!(game_id: nil)
   end
 

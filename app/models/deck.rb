@@ -23,11 +23,22 @@ class Deck < ActiveRecord::Base
         num: card_num,
         location_id: d.id,
         location_type: 'Deck',
-        order: ro[card_num - 1]
+        order: ro[card_num]
       )
     end
 
     d
+  end
+
+  def reshuffle
+    ro = (0..51).to_a.shuffle
+    self.game.cards.each.with_index do |card, idx|
+      card.update!(
+        location_id: self.id,
+        location_type: 'Deck',
+        order: ro[idx]
+      )
+    end
   end
 
   def deal(num = 1)

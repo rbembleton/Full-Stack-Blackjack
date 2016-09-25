@@ -13,18 +13,18 @@
 class Game < ActiveRecord::Base
 
   has_many :users
-  has_one :deck
-  has_many :cards
-  has_one :discard_pile
-  has_one :dealer
+  has_one :deck, dependent: :destroy
+  has_many :cards, dependent: :destroy
+  has_one :discard_pile, dependent: :destroy
+  has_one :dealer, dependent: :destroy
+
+  after_create :create_dependencies
 
   def hands
     self.players.map { |player| player.hand }
   end
 
   def players
-    self.users.reload
-    self.dealer.reload
     return self.users + Dealer.where(game_id: self.id)
   end
 
@@ -37,15 +37,17 @@ class Game < ActiveRecord::Base
     nil
   end
 
+  def create_dependencies
+    Deck.new_full_deck(self.id)
+    DiscardPile.create!(game_id: self.id)
+    Dealer.create!(game_id: self.id)
+  end
 
   def start
     return if self.users.count == 0
-
-    d = Deck.new_full_deck(self.id)
-    dp = DiscardPile.create!(game_id: self.id)
-    dlr = Dealer.create!(game_id: self.id)
-    self.update(turn_id: self.users.first.id, turn_type: 'User')
-
+    self.reload
+    self.update!(turn_id: self.users.first.id, turn_type: 'User')
+    d, dp, dlr = self.deck, self.discard_pile, self.dealer
 
     self.players.each do |player|
       h = player.hand || Hand.create!(player_id: player.id, player_type: player.class.to_s)
@@ -60,6 +62,7 @@ class Game < ActiveRecord::Base
       end
     end
 
+    self.reload
   end
 
   def make_move(move_type)
@@ -71,6 +74,7 @@ class Game < ActiveRecord::Base
     when :stand
       next_player
     end
+    self.reload
   end
 
   def next_player
@@ -92,26 +96,20 @@ class Game < ActiveRecord::Base
   end
 
   def winner
-    highest_hand = 0
-    current_winner = nil
-    winner_type = nil
+    highest_hand, current_winner = 0, nil
+    self.reload
     self.hands.each do |hand|
-      if !hand.busted? && hand.best_value > highest_hand
+      if hand && !hand.busted? && hand.best_value > highest_hand
         highest_hand = hand.best_value
-        # current_winner = { player_id: hand.player_id, player_type: hand.player_type }
         current_winner = hand.player
       end
     end
     current_winner
   end
 
-  def clear
-    Deck.destroy_all(game_id: self.id)
-    DiscardPile.destroy_all(game_id: self.id)
-    Card.destroy_all(game_id: self.id)
-    self.hands.each { |hand| hand.destroy if hand }
-    Dealer.destroy_all(game_id: self.id)
-    self.destroy
+  def reset
+    self.deck.reshuffle
+    self.hands.each { |hand| hand.reload if hand }
   end
 
 end
