@@ -1,9 +1,12 @@
 import { combineReducers } from 'redux';
 import games from './games';
-// import visibilityFilter from './visibilityFilter';
+import currentGame from './current_game';
+import currentUser from './current_user';
 
 const gameApp = combineReducers({
-  games
+  games,
+  currentGame,
+  currentUser
 });
 
 export default gameApp;

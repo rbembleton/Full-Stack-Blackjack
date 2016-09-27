@@ -22,7 +22,21 @@ class Api::UsersController < ApplicationController
     end
   end
 
-  def
+  def update
+    @user = User.find(params[:id])
+
+    if @user
+      if game_params[:game_id] && game_params[:action_type] == 'join'
+        @user.join(game_params[:game_id])
+      elsif game_params[:action_type] == 'leave'
+        @user.leave()
+      end
+      render :show
+    else
+      render json: "User not found"
+    end
+
+  end
 
 
   private
@@ -34,6 +48,11 @@ class Api::UsersController < ApplicationController
     )
   end
 
-  def 
+  def game_params
+    params.require(:user).permit(
+      :game_id,
+      :action_type
+    )
+  end
 
 end

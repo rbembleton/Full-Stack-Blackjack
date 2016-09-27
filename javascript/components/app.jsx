@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from './header';
 
 
 class App extends Component {
@@ -6,7 +7,8 @@ class App extends Component {
   render () {
     return (
       <div>
-        Hi
+        <Header />
+        {this.props.children}
       </div>
     );
   }

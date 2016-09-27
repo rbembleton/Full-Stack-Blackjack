@@ -1,23 +1,27 @@
-const game = (state, action) => {
+const games = (state = {}, action) => {
   switch (action.type) {
-    case 'NEW_GAME':
-      return {
-        id: action.id,
-        text: action.text,
-        completed: false
+    case 'RECEIVE_ALL_GAMES':
+      let ret_obj = {};
+      action.games.forEach((game) => {
+        ret_obj[game.id] = {
+          id: game.id,
+          status: game.status,
+          users: game.users
+        };
+      });
+      console.log(ret_obj);
+      return ret_obj;
+    case 'RECEIVE_GAME':
+      let updatedGame = {};
+      updatedGame[action.game.id] = {
+        id: action.game.id,
+        status: action.game.status,
+        users: action.game.users.length
       };
+      return {...state, ...updatedGame};
     default:
       return state;
   }
 };
 
-const games = (state = {}, action) => {
-  switch (action.type) {
-    case 'NEW_GAME':
-      return ({ ...state, game: game(undefined, action) });
-    default:
-      return state;
-  }
-}
-
-export default games
+export default games;

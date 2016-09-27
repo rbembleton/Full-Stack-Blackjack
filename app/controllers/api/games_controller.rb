@@ -47,7 +47,16 @@ class Api::GamesController < ApplicationController
     @game = Game.find(params[:id])
 
     if @game
-      @game.make_move(:move)
+      if game_params[:game_action]
+        if game_params[:game_action] == 'start'
+          @game.start
+        elsif game_params[:game_action] == 'reset'
+          @game.reset
+        end
+      elsif game_params[:move]
+        @game.make_move(game_params[:move])
+      end
+      render :show
     else
       render json: @game.errors.full_messages
     end
@@ -57,7 +66,7 @@ class Api::GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:move)
+    params.require(:game).permit(:move, :game_action)
   end
 
 

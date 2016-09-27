@@ -7,7 +7,7 @@
 #  updated_at :datetime
 #  turn_id    :integer          default(0)
 #  turn_type  :string
-#  winner     :string
+#  status     :string           default("new")
 #
 
 class Game < ActiveRecord::Base
@@ -46,7 +46,7 @@ class Game < ActiveRecord::Base
   def start
     return if self.users.count == 0
     self.reload
-    self.update!(turn_id: self.users.first.id, turn_type: 'User')
+    self.update!(turn_id: self.users.first.id, turn_type: 'User', status: 'started')
     d, dp, dlr = self.deck, self.discard_pile, self.dealer
 
     self.players.each do |player|
@@ -92,6 +92,7 @@ class Game < ActiveRecord::Base
 
   def finish_game
     self.dealer.take_turn
+    self.update!(status: 'finished')
     winner
   end
 
@@ -108,6 +109,7 @@ class Game < ActiveRecord::Base
   end
 
   def reset
+    self.update!(status: 'cleared')
     self.deck.reshuffle
     self.hands.each { |hand| hand.reload if hand }
   end
