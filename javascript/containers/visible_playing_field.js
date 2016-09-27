@@ -1,21 +1,19 @@
 import { connect } from 'react-redux';
-import Game from '../components/game';
+import PlayingField from '../components/playing_field';
 
 const mapStateToProps = (state) => ({
   game: state.currentGame,
   users: state.currentGame.users,
-  isJoined: state.currentGame.users ?
-    !!(state.currentGame.users[state.currentUser.id]) :
-    false
+  dealer: state.currentGame.dealer
 });
 
 const mapDispatchToProps =  ({
 
 });
 
-const VisibleGame = connect(
+const VisiblePlayingField = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Game);
+)(PlayingField);
 
-export default VisibleGame;
+export default VisiblePlayingField;

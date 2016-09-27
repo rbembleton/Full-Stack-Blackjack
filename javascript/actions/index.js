@@ -1,14 +1,14 @@
-const receiveGame = (game) => ({
+export const receiveGame = (game) => ({
   type: 'RECEIVE_GAME',
   game: game
 });
 
-const receiveAllGames = (games) => ({
+export const receiveAllGames = (games) => ({
   type: 'RECEIVE_ALL_GAMES',
   games: games
 });
 
-const updateCurrentUser = (user) => ({
+export const updateCurrentUser = (user) => ({
   type: 'UPDATE_CURRENT_USER',
   user: user
 });
@@ -50,6 +50,18 @@ export function startGame (id, dispatch) {
     method: "PATCH",
     url: `api/games/${id}`,
     data: {game: {game_action: 'start'}},
+    success: (resp) => {
+      console.log(resp);
+      dispatch(receiveGame(resp));
+    }
+  });
+}
+
+export function makeMove (data, dispatch) {
+  $.ajax({
+    method: "PATCH",
+    url: `api/games/${data.gameId}`,
+    data: {game: {move: data.moveType}},
     success: (resp) => {
       console.log(resp);
       dispatch(receiveGame(resp));

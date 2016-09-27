@@ -54,8 +54,9 @@ class Api::GamesController < ApplicationController
           @game.reset
         end
       elsif game_params[:move]
-        @game.make_move(game_params[:move])
+        @game.make_move(game_params[:move].to_sym)
       end
+      @game.reload
       render :show
     else
       render json: @game.errors.full_messages

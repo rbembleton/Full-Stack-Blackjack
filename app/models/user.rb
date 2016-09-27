@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   ## METHODS
 
   def join(game_id)
+    self.hand.destroy
     self.update!(game_id: game_id)
   end
 

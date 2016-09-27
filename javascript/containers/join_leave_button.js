@@ -18,7 +18,7 @@ const mapStateToProps = (state, ownProps) => ({
   userId: state.currentUser.id,
   gameId: state.currentGame.id,
   isJoined: state.currentGame.users ?
-    !!(state.currentGame.users.find((el) => el.id === state.currentUser.id)) :
+    !!(state.currentGame.users[state.currentUser.id]) :
     false
 });
 

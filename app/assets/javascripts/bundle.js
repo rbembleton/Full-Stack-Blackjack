@@ -72,6 +72,8 @@
 	
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 	
+	var _actions = __webpack_require__(268);
+	
 	var _app = __webpack_require__(262);
 	
 	var _app2 = _interopRequireDefault(_app);
@@ -104,13 +106,15 @@
 	      { path: '/', component: _app2.default },
 	      _react2.default.createElement(_reactRouter.IndexRoute, { component: _main2.default }),
 	      _react2.default.createElement(_reactRouter.Route, { path: '', component: _main2.default }),
-	      _react2.default.createElement(_reactRouter.Route, { path: 'game', component: _visible_game2.default })
+	      _react2.default.createElement(_reactRouter.Route, { path: 'game/:gameId', component: _visible_game2.default })
 	    )
 	  )
 	);
 	
 	document.addEventListener("DOMContentLoaded", function () {
-	  // if(window.currentUser) { SessionActions.receiveCurrentUser(window.currentUser); }
+	  if (window.currentUser) {
+	    store.dispatch((0, _actions.updateCurrentUser)(window.currentUser));
+	  }
 	  var root = document.getElementById('content');
 	  _reactDom2.default.render(router, root);
 	});
@@ -28694,24 +28698,38 @@
 	  value: true
 	});
 	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var currentGame = function currentGame() {
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	  var action = arguments[1];
 	
-	  switch (action.type) {
-	    case 'RECEIVE_GAME':
-	      return _extends({}, state, {
-	        id: action.game.id,
-	        users: action.game.users,
-	        deck: action.game.deck.size,
-	        dealer: action.game.dealer,
-	        status: action.game.status
-	      });
-	    default:
-	      return state;
-	  }
+	  var _ret = function () {
+	    switch (action.type) {
+	      case 'RECEIVE_GAME':
+	        var users_obj = {};
+	        action.game.users.forEach(function (user) {
+	          return users_obj[user.id] = user;
+	        });
+	        return {
+	          v: _extends({}, state, {
+	            id: action.game.id,
+	            users: users_obj,
+	            deck: action.game.deck.size,
+	            dealer: action.game.dealer,
+	            status: action.game.status
+	          })
+	        };
+	      default:
+	        return {
+	          v: state
+	        };
+	    }
+	  }();
+	
+	  if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 	};
 	
 	exports.default = currentGame;
@@ -29351,26 +29369,27 @@
 	exports.fetchAllGames = fetchAllGames;
 	exports.createGame = createGame;
 	exports.startGame = startGame;
+	exports.makeMove = makeMove;
 	exports.createUser = createUser;
 	exports.joinGame = joinGame;
 	exports.leaveGame = leaveGame;
 	exports.logInUser = logInUser;
 	exports.logOutUser = logOutUser;
-	var receiveGame = function receiveGame(game) {
+	var receiveGame = exports.receiveGame = function receiveGame(game) {
 	  return {
 	    type: 'RECEIVE_GAME',
 	    game: game
 	  };
 	};
 	
-	var receiveAllGames = function receiveAllGames(games) {
+	var receiveAllGames = exports.receiveAllGames = function receiveAllGames(games) {
 	  return {
 	    type: 'RECEIVE_ALL_GAMES',
 	    games: games
 	  };
 	};
 	
-	var updateCurrentUser = function updateCurrentUser(user) {
+	var updateCurrentUser = exports.updateCurrentUser = function updateCurrentUser(user) {
 	  return {
 	    type: 'UPDATE_CURRENT_USER',
 	    user: user
@@ -29413,6 +29432,18 @@
 	    method: "PATCH",
 	    url: 'api/games/' + id,
 	    data: { game: { game_action: 'start' } },
+	    success: function success(resp) {
+	      console.log(resp);
+	      dispatch(receiveGame(resp));
+	    }
+	  });
+	}
+	
+	function makeMove(data, dispatch) {
+	  $.ajax({
+	    method: "PATCH",
+	    url: 'api/games/' + data.gameId,
+	    data: { game: { move: data.moveType } },
 	    success: function success(resp) {
 	      console.log(resp);
 	      dispatch(receiveGame(resp));
@@ -29639,7 +29670,7 @@
 	    onClick: function onClick() {
 	      console.log('fetch-game');
 	      (0, _actions.fetchGame)(ownProps.id, dispatch);
-	      _reactRouter.browserHistory.push('game');
+	      _reactRouter.browserHistory.push('game/' + ownProps.id);
 	    }
 	  };
 	};
@@ -29669,7 +29700,8 @@
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
 	    game: state.currentGame,
-	    users: state.currentGame.users
+	    users: state.currentGame.users,
+	    isJoined: state.currentGame.users ? !!state.currentGame.users[state.currentUser.id] : false
 	  };
 	};
 	
@@ -29703,11 +29735,16 @@
 	
 	var _join_leave_button2 = _interopRequireDefault(_join_leave_button);
 	
+	var _visible_playing_field = __webpack_require__(277);
+	
+	var _visible_playing_field2 = _interopRequireDefault(_visible_playing_field);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Game = function Game(_ref) {
 	  var game = _ref.game;
 	  var users = _ref.users;
+	  var isJoined = _ref.isJoined;
 	
 	
 	  function backToMain() {
@@ -29733,7 +29770,8 @@
 	      _react2.default.createElement('br', null)
 	    ),
 	    _react2.default.createElement(_start_game2.default, { id: game.id }),
-	    _react2.default.createElement(_join_leave_button2.default, null)
+	    _react2.default.createElement(_join_leave_button2.default, null),
+	    isJoined ? _react2.default.createElement(_visible_playing_field2.default, null) : null
 	  );
 	};
 	
@@ -29878,9 +29916,7 @@
 	  return {
 	    userId: state.currentUser.id,
 	    gameId: state.currentGame.id,
-	    isJoined: state.currentGame.users ? !!state.currentGame.users.find(function (el) {
-	      return el.id === state.currentUser.id;
-	    }) : false
+	    isJoined: state.currentGame.users ? !!state.currentGame.users[state.currentUser.id] : false
 	  };
 	};
 	
@@ -29898,6 +29934,273 @@
 	JoinLeaveButton = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(JoinLeaveButton);
 	
 	exports.default = JoinLeaveButton;
+
+/***/ },
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(48);
+	
+	var _playing_field = __webpack_require__(278);
+	
+	var _playing_field2 = _interopRequireDefault(_playing_field);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    game: state.currentGame,
+	    users: state.currentGame.users,
+	    dealer: state.currentGame.dealer
+	  };
+	};
+	
+	var mapDispatchToProps = {};
+	
+	var VisiblePlayingField = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_playing_field2.default);
+	
+	exports.default = VisiblePlayingField;
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _visible_user_display = __webpack_require__(281);
+	
+	var _visible_user_display2 = _interopRequireDefault(_visible_user_display);
+	
+	var _visible_dealer_display = __webpack_require__(282);
+	
+	var _visible_dealer_display2 = _interopRequireDefault(_visible_dealer_display);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var PlayingField = function PlayingField(_ref) {
+	  var game = _ref.game;
+	  var users = _ref.users;
+	  var dealer = _ref.dealer;
+	
+	  return _react2.default.createElement(
+	    'div',
+	    { style: { border: '1px solid black' } },
+	    'Playing Field:',
+	    Object.keys(users).map(function (userId, idx) {
+	      return _react2.default.createElement(_visible_user_display2.default, { key: idx, userId: userId });
+	    }),
+	    _react2.default.createElement(_visible_dealer_display2.default, { dealerId: dealer.id })
+	  );
+	};
+	
+	exports.default = PlayingField;
+
+/***/ },
+/* 279 */,
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _game_actions = __webpack_require__(283);
+	
+	var _game_actions2 = _interopRequireDefault(_game_actions);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var PlayerDisplay = function PlayerDisplay(_ref) {
+	  var game = _ref.game;
+	  var player = _ref.player;
+	  var username = _ref.username;
+	  var cards = _ref.cards;
+	  var hand = _ref.hand;
+	  var isCurrentUser = _ref.isCurrentUser;
+	
+	
+	  return _react2.default.createElement(
+	    'div',
+	    { style: { border: '1px solid black' } },
+	    _react2.default.createElement(
+	      'h2',
+	      null,
+	      username
+	    ),
+	    cards.map(function (card, idx) {
+	      return _react2.default.createElement(
+	        'h3',
+	        { key: idx },
+	        card.name
+	      );
+	    }),
+	    isCurrentUser ? _react2.default.createElement(_game_actions2.default, null) : _react2.default.createElement(_game_actions2.default, null)
+	  );
+	};
+	
+	exports.default = PlayerDisplay;
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(48);
+	
+	var _player_display = __webpack_require__(280);
+	
+	var _player_display2 = _interopRequireDefault(_player_display);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {
+	    game: state.currentGame,
+	    player: state.currentGame.users[ownProps.userId],
+	    username: state.currentGame.users[ownProps.userId].username,
+	    hand: state.currentGame.users[ownProps.userId].hand,
+	    cards: state.currentGame.users[ownProps.userId].hand.cards,
+	    isCurrentUser: !!(ownProps.userId === state.currentUser.id)
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {};
+	};
+	
+	var VisibleUserDisplay = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_player_display2.default);
+	
+	exports.default = VisibleUserDisplay;
+
+/***/ },
+/* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(48);
+	
+	var _player_display = __webpack_require__(280);
+	
+	var _player_display2 = _interopRequireDefault(_player_display);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {
+	    game: state.currentGame,
+	    player: state.currentGame.dealer,
+	    username: 'dealer',
+	    hand: state.currentGame.dealer.hand,
+	    cards: state.currentGame.dealer.hand.cards,
+	    isCurrentUser: false
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {};
+	};
+	
+	var VisibleDealerDisplay = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_player_display2.default);
+	
+	exports.default = VisibleDealerDisplay;
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(48);
+	
+	var _actions = __webpack_require__(268);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var GameActions = function GameActions(_ref) {
+	  var gameId = _ref.gameId;
+	  var clickToHit = _ref.clickToHit;
+	  var clickToStand = _ref.clickToStand;
+	
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'button',
+	      { onClick: function onClick() {
+	          return clickToHit(gameId);
+	        } },
+	      'Hit'
+	    ),
+	    _react2.default.createElement(
+	      'button',
+	      { onClick: function onClick() {
+	          return clickToStand(gameId);
+	        } },
+	      'Stand'
+	    )
+	  );
+	};
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {
+	    gameId: state.currentGame.id
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {
+	    clickToHit: function clickToHit(gameId) {
+	      console.log('hit');
+	      (0, _actions.makeMove)({ gameId: gameId, moveType: 'hit' }, dispatch);
+	    },
+	    clickToStand: function clickToStand(gameId) {
+	      console.log('stand');
+	      (0, _actions.makeMove)({ gameId: gameId, moveType: 'stand' }, dispatch);
+	    }
+	  };
+	};
+	
+	GameActions = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(GameActions);
+	
+	exports.default = GameActions;
 
 /***/ }
 /******/ ]);

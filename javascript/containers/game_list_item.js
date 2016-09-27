@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onClick: () => {
     console.log('fetch-game');
     fetchGame(ownProps.id, dispatch);
-    browserHistory.push('game');
+    browserHistory.push(`game/${ownProps.id}`);
   }
 });
 

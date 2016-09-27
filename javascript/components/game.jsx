@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import StartGame from '../containers/start_game';
 import JoinLeaveButton from '../containers/join_leave_button';
+import VisiblePlayingField from '../containers/visible_playing_field';
 
-const Game = ({ game, users }) => {
+
+const Game = ({ game, users, isJoined }) => {
 
   function backToMain () {
     browserHistory.push('');
@@ -21,6 +23,7 @@ const Game = ({ game, users }) => {
       </div>
       <StartGame id={game.id}/>
       <JoinLeaveButton />
+      { isJoined ? <VisiblePlayingField /> : null }
     </div>
   );
 
