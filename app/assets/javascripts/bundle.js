@@ -29765,14 +29765,17 @@
 	      null,
 	      "Game #" + (game ? game.id : ' '),
 	      _react2.default.createElement('br', null),
-	      "Users: " + (users ? users.length : '0'),
+	      "Users (" + (users ? Object.keys(users).length : '0') + "): ",
+	      users ? Object.keys(users).map(function (id) {
+	        return users[id].username;
+	      }) : '--',
 	      _react2.default.createElement('br', null),
 	      "Status: " + (game ? game.status : ' '),
 	      _react2.default.createElement('br', null)
 	    ),
 	    _react2.default.createElement(_start_game2.default, { id: game.id }),
 	    _react2.default.createElement(_join_leave_button2.default, null),
-	    isJoined ? _react2.default.createElement(_visible_playing_field2.default, null) : null
+	    isJoined && game.status !== 'new' ? _react2.default.createElement(_visible_playing_field2.default, null) : null
 	  );
 	};
 	

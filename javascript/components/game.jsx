@@ -18,12 +18,12 @@ const Game = ({ game, users, isJoined }) => {
       </button>
       <div>
         {"Game #" + (game ? game.id : ' ')}<br/>
-        {"Users: " + (users ? users.length : '0')}<br/>
+      {"Users (" + (users ? Object.keys(users).length : '0') + "): "}{(users ? Object.keys(users).map((id) => users[id].username) : '--')}<br/>
         {"Status: " + (game ? game.status : ' ')}<br/>
       </div>
       <StartGame id={game.id}/>
       <JoinLeaveButton />
-      { isJoined ? <VisiblePlayingField /> : null }
+      { isJoined && game.status !== 'new' ? <VisiblePlayingField /> : null }
     </div>
   );
 
