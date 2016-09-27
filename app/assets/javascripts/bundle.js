@@ -106,7 +106,7 @@
 	      { path: '/', component: _app2.default },
 	      _react2.default.createElement(_reactRouter.IndexRoute, { component: _main2.default }),
 	      _react2.default.createElement(_reactRouter.Route, { path: '', component: _main2.default }),
-	      _react2.default.createElement(_reactRouter.Route, { path: 'game/:gameId', component: _visible_game2.default })
+	      _react2.default.createElement(_reactRouter.Route, { path: 'game', component: _visible_game2.default })
 	    )
 	  )
 	);
@@ -29670,7 +29670,8 @@
 	    onClick: function onClick() {
 	      console.log('fetch-game');
 	      (0, _actions.fetchGame)(ownProps.id, dispatch);
-	      _reactRouter.browserHistory.push('game/' + ownProps.id);
+	      // browserHistory.push(`game/${ownProps.id}`);
+	      _reactRouter.browserHistory.push('game');
 	    }
 	  };
 	};
@@ -30028,6 +30029,10 @@
 	
 	var _game_actions2 = _interopRequireDefault(_game_actions);
 	
+	var _card = __webpack_require__(284);
+	
+	var _card2 = _interopRequireDefault(_card);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var PlayerDisplay = function PlayerDisplay(_ref) {
@@ -30039,6 +30044,7 @@
 	  var isCurrentUser = _ref.isCurrentUser;
 	
 	
+	  // {cards.map((card, idx) => <h3 key={idx}>{card.name}</h3>)}
 	  return _react2.default.createElement(
 	    'div',
 	    { style: { border: '1px solid black' } },
@@ -30047,12 +30053,10 @@
 	      null,
 	      username
 	    ),
+	    hand.is_busted ? 'BUSTED!' : null,
+	    'Best Value: ' + hand.best_value + ', Lowest Value: ' + hand.lowest_value,
 	    cards.map(function (card, idx) {
-	      return _react2.default.createElement(
-	        'h3',
-	        { key: idx },
-	        card.name
-	      );
+	      return _react2.default.createElement(_card2.default, { key: idx, num: card.num });
 	    }),
 	    isCurrentUser ? _react2.default.createElement(_game_actions2.default, null) : _react2.default.createElement(_game_actions2.default, null)
 	  );
@@ -30201,6 +30205,122 @@
 	GameActions = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(GameActions);
 	
 	exports.default = GameActions;
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _constants = __webpack_require__(285);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Card = function (_Component) {
+	  _inherits(Card, _Component);
+	
+	  function Card() {
+	    _classCallCheck(this, Card);
+	
+	    return _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).apply(this, arguments));
+	  }
+	
+	  _createClass(Card, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { style: { display: 'inline-block', float: 'left', border: '1px solid black' } },
+	        _react2.default.createElement(
+	          'div',
+	          { style: { color: (0, _constants.color)(this.props.num) } },
+	          '' + (0, _constants.rank)(this.props.num) + (0, _constants.suit)(this.props.num)
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Card;
+	}(_react.Component);
+	
+	exports.default = Card;
+
+/***/ },
+/* 285 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.rank = rank;
+	exports.suit = suit;
+	exports.color = color;
+	var SUIT_CONV = {
+	  0: '♣︎',
+	  1: '♦',
+	  2: '♥',
+	  3: '♠'
+	};
+	
+	// const SUIT_CONV = {
+	//   0: 'clubs',
+	//   1: 'diamonds',
+	//   2: 'hearts',
+	//   3: 'spades'
+	// };
+	
+	var COLOR_CONV = {
+	  0: 'black',
+	  1: 'red',
+	  2: 'red',
+	  3: 'black'
+	};
+	
+	var RANK_CONV = {
+	  1: 'A',
+	  2: '2',
+	  3: '3',
+	  4: '4',
+	  5: '5',
+	  6: '6',
+	  7: '7',
+	  8: '8',
+	  9: '9',
+	  10: '10',
+	  11: 'J',
+	  12: 'Q',
+	  13: 'K'
+	};
+	
+	function rank(num) {
+	  return RANK_CONV[num % 13 + 1];
+	}
+	
+	function suit(num) {
+	  return SUIT_CONV[Math.floor(num / 13)];
+	}
+	
+	function color(num) {
+	  return COLOR_CONV[Math.floor(num / 13)];
+	}
 
 /***/ }
 /******/ ]);

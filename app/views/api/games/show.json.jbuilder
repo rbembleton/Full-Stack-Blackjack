@@ -2,7 +2,13 @@ json.(@game, :id, :created_at, :updated_at, :winner, :status)
 
 json.current_player do
   if @game.current_player
-    json.partial! 'api/users/user', user: @game.current_player
+    json.type @game.turn_type
+    if @game.turn_type == 'User'
+      json.partial! 'api/users/user', user: @game.current_player
+    else
+      json.id @game.turn_id
+      json.username 'dealer'
+    end
   else
     json.nil!
   end

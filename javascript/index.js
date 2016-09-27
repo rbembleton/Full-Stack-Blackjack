@@ -28,7 +28,7 @@ const router = (
       <Route path="/" component={App}>
         <IndexRoute component={Main}/>
         <Route path="" component={Main}/>
-        <Route path="game/:gameId" component={VisibleGame}/>
+        <Route path="game" component={VisibleGame}/>
       </Route>
     </Router>
   </Provider>
