@@ -57,6 +57,18 @@ export function startGame (id, dispatch) {
   });
 }
 
+export function resetGame (id, dispatch) {
+  $.ajax({
+    method: "PATCH",
+    url: `api/games/${id}`,
+    data: {game: {game_action: 'reset'}},
+    success: (resp) => {
+      console.log(resp);
+      dispatch(receiveGame(resp));
+    }
+  });
+}
+
 export function makeMove (data, dispatch) {
   $.ajax({
     method: "PATCH",

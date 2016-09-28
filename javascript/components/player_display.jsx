@@ -10,7 +10,7 @@ const PlayerDisplay = ({ game, player, username, cards, hand, isCurrentUser }) =
       <h2>{username}</h2>
       {hand.is_busted ? 'BUSTED!' : null}
       {`Best Value: ${hand.best_value}, Lowest Value: ${hand.lowest_value}`}
-      {cards.map((card, idx) => <Card key={idx} num={card.num} />)}
+      {cards.map((card, idx) => <Card key={idx} card={card} />)}
       {isCurrentUser ? <GameActions /> : <GameActions />}
     </div>
   );

@@ -6,7 +6,8 @@ const mapStateToProps = (state) => ({
   users: state.currentGame.users,
   isJoined: state.currentGame.users ?
     !!(state.currentGame.users[state.currentUser.id]) :
-    false
+    false,
+  winner: state.currentGame.winner
 });
 
 const mapDispatchToProps =  ({

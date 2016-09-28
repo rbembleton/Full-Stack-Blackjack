@@ -18,7 +18,7 @@ class Hand < ActiveRecord::Base
   end
 
   def best_value
-    aces = self.cards.count { |card| card.value == 1 }
+    aces = self.cards.to_a.count { |card| card.value == 1 }
     sum = lowest_value
 
     while aces >= 1 && sum <= 11

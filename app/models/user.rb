@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   ## METHODS
 
   def join(game_id)
-    self.hand.destroy if self.hand 
+    self.hand.destroy if self.hand
     self.update!(game_id: game_id)
   end
 
@@ -39,7 +39,8 @@ class User < ActiveRecord::Base
     self.game.deck.deal(1).update!(
       location_id: self.hand.id,
       location_type: 'Hand',
-      order: self.hand.cards.count
+      order: self.hand.cards.count,
+      hidden: (self.hand.cards.count == 0)
     )
   end
 

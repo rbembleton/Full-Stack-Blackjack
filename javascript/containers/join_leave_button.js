@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { joinGame, leaveGame } from '../actions';
 
-let JoinLeaveButton = ({ userId, gameId, isJoined, onClickJoin, onClickLeave }) => {
+let JoinLeaveButton = ({ userId, gameId, isJoined, isStarted, onClickJoin, onClickLeave }) => {
   return (
     isJoined ?
-      <button type="submit" onClick={() => onClickLeave({ userId: userId, gameId: gameId })}>
+      <button type="submit" disabled={isStarted} onClick={() => onClickLeave({ userId: userId, gameId: gameId })}>
         Leave Game
       </button> :
-      <button type="submit" onClick={() => onClickJoin({ userId: userId, gameId: gameId })}>
+      <button type="submit" disabled={isStarted} onClick={() => onClickJoin({ userId: userId, gameId: gameId })}>
         Join Game
       </button>
   );
@@ -17,6 +17,7 @@ let JoinLeaveButton = ({ userId, gameId, isJoined, onClickJoin, onClickLeave }) 
 const mapStateToProps = (state, ownProps) => ({
   userId: state.currentUser.id,
   gameId: state.currentGame.id,
+  isStarted: state.currentGame.status === 'started',
   isJoined: state.currentGame.users ?
     !!(state.currentGame.users[state.currentUser.id]) :
     false

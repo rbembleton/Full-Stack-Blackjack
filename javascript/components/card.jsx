@@ -6,9 +6,14 @@ class Card extends Component {
   render () {
     return (
       <div style={{display: 'inline-block', float: 'left', border: '1px solid black'}}>
-        <div style={{color: color(this.props.num)}}>
-          {`${rank(this.props.num)}${suit(this.props.num)}`}
+        {this.props.card.hidden ?
+        <div>
+          XX
+        </div> :
+        <div style={{color: color(this.props.card.num)}}>
+          {`${rank(this.props.card.num)}${suit(this.props.card.num)}`}
         </div>
+        }
       </div>
     );
   }

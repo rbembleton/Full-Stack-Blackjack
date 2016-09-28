@@ -93,6 +93,7 @@ class Game < ActiveRecord::Base
   def finish_game
     self.dealer.take_turn
     self.update!(status: 'finished')
+    self.players.each { |plr| plr.hand.cards.each { |c| c.update!(hidden: false) } }
     winner
   end
 

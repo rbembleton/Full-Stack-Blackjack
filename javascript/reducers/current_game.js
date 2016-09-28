@@ -9,7 +9,8 @@ const currentGame = (state = {}, action) => {
         users: users_obj,
         deck: action.game.deck.size,
         dealer: action.game.dealer,
-        status: action.game.status
+        status: action.game.status,
+        winner: action.game.winner
       };
     default:
       return state;
