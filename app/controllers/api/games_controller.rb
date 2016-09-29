@@ -4,6 +4,7 @@ class Api::GamesController < ApplicationController
     @game = Game.new()
 
     if @game.save
+      broadcast_all_games_update
       render :show
     else
       render json: @game.errors.full_messages
@@ -24,6 +25,7 @@ class Api::GamesController < ApplicationController
     @game = Game.find(params[:id])
 
     if @game.save
+      # broadcast_game_update(@game.id)
       render :show
     else
       render json: @game.errors.full_messages
@@ -36,6 +38,8 @@ class Api::GamesController < ApplicationController
     if @game
       @game.clear
       @game.destroy
+      broadcast_game_update(@game.id)
+      broadcast_all_games_update
       render :show
     else
       render json: @game.errors.full_messages
@@ -57,6 +61,7 @@ class Api::GamesController < ApplicationController
         @game.make_move(game_params[:move].to_sym)
       end
       @game.reload
+      broadcast_game_update(@game.id)
       render :show
     else
       render json: @game.errors.full_messages
@@ -65,6 +70,23 @@ class Api::GamesController < ApplicationController
   end
 
   private
+
+  def broadcast_game_update(game_id)
+    return unless game_id
+    Pusher.trigger(
+      "game_channel_#{game_id}",
+      'update_game',
+      {}
+    )
+  end
+
+  def broadcast_all_games_update()
+    Pusher.trigger(
+      "all_games_channel",
+      'update_games',
+      {}
+    )
+  end
 
   def game_params
     params.require(:game).permit(:move, :game_action)

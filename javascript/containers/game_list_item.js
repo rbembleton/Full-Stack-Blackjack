@@ -21,7 +21,6 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onClick: () => {
-    console.log('fetch-game');
     fetchGame(ownProps.id, dispatch);
     // browserHistory.push(`game/${ownProps.id}`);
     browserHistory.push(`game`);

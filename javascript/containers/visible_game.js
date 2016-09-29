@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import Game from '../components/game';
+import { fetchGame } from '../actions';
 
 const mapStateToProps = (state) => ({
   game: state.currentGame,
@@ -10,8 +11,10 @@ const mapStateToProps = (state) => ({
   winner: state.currentGame.winner
 });
 
-const mapDispatchToProps =  ({
-
+const mapDispatchToProps =  (dispatch) => ({
+  updateGame: (gameId) => {
+    fetchGame(gameId, dispatch);
+  }
 });
 
 const VisibleGame = connect(

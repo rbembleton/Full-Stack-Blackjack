@@ -10,7 +10,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getAllGames: () => {
-    console.log('hi');
     fetchAllGames(dispatch);
   }
 });

@@ -9,7 +9,6 @@ const games = (state = {}, action) => {
           users: game.users
         };
       });
-      console.log(ret_obj);
       return ret_obj;
     case 'RECEIVE_GAME':
       let updatedGame = {};

@@ -21,11 +21,9 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   clickToHit: (gameId) => {
-    console.log('hit');
     makeMove({gameId: gameId, moveType: 'hit'}, dispatch);
   },
   clickToStand: (gameId) => {
-    console.log('stand');
     makeMove({gameId: gameId, moveType: 'stand'}, dispatch);
   }
 });

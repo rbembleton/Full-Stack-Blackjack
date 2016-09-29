@@ -35,7 +35,10 @@ const SignInUpForm = ({ submitData, toggleForm, buttonText, linkText, demoLogIn 
         <button type="submit">
           {buttonText}
         </button>
-        <button onClick={demoLogIn}>
+        <button onClick={(e) => {
+            e.preventDefault();
+            demoLogIn();
+          }}>
           Demo Login
         </button>
       </form>

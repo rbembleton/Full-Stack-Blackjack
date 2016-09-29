@@ -12,7 +12,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   submitData: (data) => {
     logInUser(data, dispatch);
   },
-  demoLogIn: (data) => {
+  demoLogIn: () => {
     logInUser({ username: 'demo', password: 'password' }, dispatch);
   },
   toggleForm: () => {

@@ -34,7 +34,6 @@ export function fetchAllGames (dispatch) {
     method: "GET",
     url: `api/games/`,
     success: (resp) => {
-      console.log(resp);
       dispatch(receiveAllGames(resp));
     }
   });
@@ -56,7 +55,6 @@ export function startGame (id, dispatch) {
     url: `api/games/${id}`,
     data: {game: {game_action: 'start'}},
     success: (resp) => {
-      console.log(resp);
       dispatch(receiveGame(resp));
     }
   });
@@ -68,7 +66,6 @@ export function resetGame (id, dispatch) {
     url: `api/games/${id}`,
     data: {game: {game_action: 'reset'}},
     success: (resp) => {
-      console.log(resp);
       dispatch(receiveGame(resp));
     }
   });
@@ -80,7 +77,6 @@ export function makeMove (data, dispatch) {
     url: `api/games/${data.gameId}`,
     data: {game: {move: data.moveType}},
     success: (resp) => {
-      console.log(resp);
       dispatch(receiveGame(resp));
     }
   });
@@ -130,7 +126,6 @@ export function logInUser (data, dispatch) {
     url: `api/session`,
     data: {user: {username: data.username, password: data.password}},
     success: (resp) => {
-      console.log(resp);
       dispatch(updateCurrentUser(resp));
     }
   });
@@ -141,7 +136,6 @@ export function logOutUser (dispatch) {
     method: "DELETE",
     url: `api/session`,
     success: (resp) => {
-      console.log(resp);
       dispatch(updateCurrentUser(resp));
       dispatch(toggleForm('login'));
     }
