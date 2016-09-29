@@ -5,7 +5,7 @@ import SignOutButton from './sign_out_button';
 let CurrentUser = ({ user }) => {
 
   return (
-    <div>
+    <div className="welcome-user">
       {user.id ?
         <div>
           {`Welcome, ${user.username}`}

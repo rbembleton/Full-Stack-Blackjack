@@ -13,6 +13,11 @@ export const updateCurrentUser = (user) => ({
   user: user
 });
 
+export const toggleForm = (form) => ({
+  type: 'TOGGLE_FORM',
+  form: form
+});
+
 
 export function fetchGame (id, dispatch) {
   $.ajax({
@@ -138,6 +143,7 @@ export function logOutUser (dispatch) {
     success: (resp) => {
       console.log(resp);
       dispatch(updateCurrentUser(resp));
+      dispatch(toggleForm('login'));
     }
   });
 }

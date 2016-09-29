@@ -14,7 +14,7 @@ class GameList extends Component {
 
   render () {
     return (
-      <div>
+      <div className="game-list">
         {Object.keys(this.props.games).map((gameId, idx) => {
           return <GameListItem key={idx} id={gameId} />
         })}

@@ -4,7 +4,10 @@ import { createGame } from '../actions';
 
 let AddGame = ({ dispatch }) => {
   return (
-    <button type="submit" onClick={() => dispatch(() => createGame(dispatch))}>
+    <button
+      className="add-game-button" 
+      type="submit"
+      onClick={() => dispatch(() => createGame(dispatch))}>
       Add Game
     </button>
   );

@@ -1,0 +1,147 @@
+$cardfont: 'Inder', sans-serif;
+$textfont: 'Roboto', sans-serif;
+
+#content {
+  font-family: $textfont;
+
+  button {
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px lightgrey;
+  }
+
+  button:disabled {
+    color: grey;
+  }
+
+  nav {
+    display: flex;
+    height: 60px;
+    box-shadow: 1px 0px 1px lightgrey;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+
+    button {
+      height: 30px;
+      line-height: 30px;
+      width: 90px;
+      margin-left: 10px;
+      font-size: 14px;
+    }
+
+    .welcome-user {
+      margin-right: 10px;
+    }
+
+    .sign-in-up-form {
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      width: 500px;
+      margin-right: 10px;
+
+      form {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      .form-fields {
+        width: 100px;
+        height: 20px;
+        padding: 5px;
+        margin: 5px;
+        font-size: 14px;
+        border-radius: 2px;
+        box-shadow: 1px 1px 1px 1px darkgrey;
+      }
+
+      .switch-form {
+        color: blue;
+        cursor: pointer;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .main {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    .add-game-button {
+      width: 200px;
+      height: 80px;
+      border-radius: 10px;
+      color: blue;
+    }
+
+    .game-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+
+      .game-list-item {
+        height: 90px;
+        line-height: 30px;
+        margin: 5px;
+      }
+    }
+  }
+
+
+  .card {
+    font-family: $cardfont;
+    width: 120px;
+    height: 160px;
+    font-size: 20px;
+    border-radius: 10px;
+    float: left;
+    box-shadow: 1px 2px 4px 0.5px #747474;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+
+    .top-left {
+      top: 5px;
+      left: 5px;
+      line-height: 22px;
+      position: absolute;
+    }
+
+    .bottom-right {
+      bottom: 5px;
+      right: 5px;
+      line-height: 22px;
+      position: absolute;
+      transform: rotate(180deg);
+    }
+
+    .center {
+      font-size: 60px
+    }
+
+    .hidden {
+      width: 100%;
+      height: 100%;
+      background-image: url(http://www.publicdomainpictures.net/pictures/130000/velka/abstract-elegant-background-card-1438902900z1O.jpg);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+  }
+
+}

@@ -5,14 +5,18 @@ class Card extends Component {
 
   render () {
     return (
-      <div style={{display: 'inline-block', float: 'left', border: '1px solid black'}}>
+      <div className="card unsel">
         {this.props.card.hidden ?
-        <div>
-          XX
+        <div className="hidden">
         </div> :
-        <div style={{color: color(this.props.card.num)}}>
-          {`${rank(this.props.card.num)}${suit(this.props.card.num)}`}
-        </div>
+        ['top-left', 'center', 'bottom-right'].map((cName, idx) => {
+          return (
+            <div className={cName} key={idx} style={{color: color(this.props.card.num)}}>
+              {(cName !== 'center') ? <span>{rank(this.props.card.num)}<br/></span> : null}
+              {`${suit(this.props.card.num)}`}
+            </div>
+          );
+        })
         }
       </div>
     );

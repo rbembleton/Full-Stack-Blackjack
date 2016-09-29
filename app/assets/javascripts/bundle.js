@@ -28623,12 +28623,17 @@
 	
 	var _current_user2 = _interopRequireDefault(_current_user);
 	
+	var _toggle_form = __webpack_require__(291);
+	
+	var _toggle_form2 = _interopRequireDefault(_toggle_form);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var gameApp = (0, _redux.combineReducers)({
 	  games: _games2.default,
 	  currentGame: _current_game2.default,
-	  currentUser: _current_user2.default
+	  currentUser: _current_user2.default,
+	  toggleForm: _toggle_form2.default
 	});
 	
 	exports.default = gameApp;
@@ -29060,6 +29065,13 @@
 	  };
 	};
 	
+	var toggleForm = exports.toggleForm = function toggleForm(form) {
+	  return {
+	    type: 'TOGGLE_FORM',
+	    form: form
+	  };
+	};
+	
 	function fetchGame(id, dispatch) {
 	  $.ajax({
 	    method: "GET",
@@ -29184,6 +29196,7 @@
 	    success: function success(resp) {
 	      console.log(resp);
 	      dispatch(updateCurrentUser(resp));
+	      dispatch(toggleForm('login'));
 	    }
 	  });
 	}
@@ -29204,9 +29217,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _header = __webpack_require__(264);
+	var _header_cont = __webpack_require__(286);
 	
-	var _header2 = _interopRequireDefault(_header);
+	var _header_cont2 = _interopRequireDefault(_header_cont);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29231,7 +29244,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(_header2.default, null),
+	        _react2.default.createElement(_header_cont2.default, null),
 	        this.props.children
 	      );
 	    }
@@ -29252,15 +29265,17 @@
 	  value: true
 	});
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	var _react = __webpack_require__(2);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _sign_in_form = __webpack_require__(265);
+	var _visible_log_in_form = __webpack_require__(288);
 	
-	var _sign_in_form2 = _interopRequireDefault(_sign_in_form);
+	var _visible_log_in_form2 = _interopRequireDefault(_visible_log_in_form);
+	
+	var _visible_sign_up_form = __webpack_require__(290);
+	
+	var _visible_sign_up_form2 = _interopRequireDefault(_visible_sign_up_form);
 	
 	var _current_user = __webpack_require__(266);
 	
@@ -29268,116 +29283,22 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var Header = function Header(_ref) {
+	  var isLoggedIn = _ref.isLoggedIn;
+	  var whichForm = _ref.whichForm;
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Header = function (_Component) {
-	  _inherits(Header, _Component);
-	
-	  function Header() {
-	    _classCallCheck(this, Header);
-	
-	    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
-	  }
-	
-	  _createClass(Header, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'nav',
-	        null,
-	        _react2.default.createElement(_sign_in_form2.default, null),
-	        _react2.default.createElement(_current_user2.default, null)
-	      );
-	    }
-	  }]);
-	
-	  return Header;
-	}(_react.Component);
+	  return _react2.default.createElement(
+	    'nav',
+	    null,
+	    isLoggedIn ? _react2.default.createElement(_current_user2.default, null) : whichForm === 'login' ? _react2.default.createElement(_visible_log_in_form2.default, null) : _react2.default.createElement(_visible_sign_up_form2.default, null)
+	  );
+	};
 	
 	exports.default = Header;
 
 /***/ },
-/* 265 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(2);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRedux = __webpack_require__(48);
-	
-	var _actions = __webpack_require__(262);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var SignInForm = function SignInForm(_ref) {
-	  var submitData = _ref.submitData;
-	
-	
-	  var input = {
-	    username: '',
-	    password: ''
-	  };
-	
-	  return _react2.default.createElement(
-	    'form',
-	    { onSubmit: function onSubmit(e) {
-	        e.preventDefault();
-	        submitData({ username: input.username.value.trim(), password: input.password.value.trim() });
-	        input.username.value = '';
-	        input.password.value = '';
-	      }
-	    },
-	    'Sign in:',
-	    _react2.default.createElement('input', {
-	      type: 'text',
-	      placeholder: 'username',
-	      ref: function ref(e) {
-	        input.username = e;
-	      }
-	    }),
-	    _react2.default.createElement('input', {
-	      type: 'password',
-	      placeholder: 'password',
-	      ref: function ref(e) {
-	        input.password = e;
-	      }
-	    }),
-	    _react2.default.createElement(
-	      'button',
-	      { type: 'submit' },
-	      'sign in'
-	    )
-	  );
-	};
-	
-	var mapStateToProps = function mapStateToProps(state, ownProps) {
-	  return {};
-	};
-	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
-	  return {
-	    submitData: function submitData(data) {
-	      (0, _actions.logInUser)(data, dispatch);
-	    }
-	  };
-	};
-	
-	SignInForm = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SignInForm);
-	
-	exports.default = SignInForm;
-
-/***/ },
+/* 265 */,
 /* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -29405,7 +29326,7 @@
 	
 	  return _react2.default.createElement(
 	    'div',
-	    null,
+	    { className: 'welcome-user' },
 	    user.id ? _react2.default.createElement(
 	      'div',
 	      null,
@@ -29523,7 +29444,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'main' },
 	        _react2.default.createElement(_visible_game_list2.default, null),
 	        _react2.default.createElement(_add_game2.default, null)
 	      );
@@ -29560,7 +29481,10 @@
 	
 	  return _react2.default.createElement(
 	    'button',
-	    { type: 'submit', onClick: function onClick() {
+	    {
+	      className: 'add-game-button',
+	      type: 'submit',
+	      onClick: function onClick() {
 	        return dispatch(function () {
 	          return (0, _actions.createGame)(dispatch);
 	        });
@@ -29660,7 +29584,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'game-list' },
 	        Object.keys(this.props.games).map(function (gameId, idx) {
 	          return _react2.default.createElement(_game_list_item2.default, { key: idx, id: gameId });
 	        })
@@ -29708,7 +29632,7 @@
 	    null,
 	    _react2.default.createElement(
 	      'button',
-	      { onClick: onClick },
+	      { className: 'game-list-item', onClick: onClick },
 	      "Game #" + (game ? game.id : ' '),
 	      _react2.default.createElement('br', null),
 	      "Users: " + (game ? game.users : '0'),
@@ -30057,10 +29981,9 @@
 	  var isCurrentUser = _ref.isCurrentUser;
 	
 	
-	  // {cards.map((card, idx) => <h3 key={idx}>{card.name}</h3>)}
 	  return _react2.default.createElement(
 	    'div',
-	    { style: { border: '1px solid black' } },
+	    { className: 'clearfix', style: { border: '1px solid black' } },
 	    _react2.default.createElement(
 	      'h2',
 	      null,
@@ -30183,18 +30106,24 @@
 	  _createClass(Card, [{
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+	
 	      return _react2.default.createElement(
 	        'div',
-	        { style: { display: 'inline-block', float: 'left', border: '1px solid black' } },
-	        this.props.card.hidden ? _react2.default.createElement(
-	          'div',
-	          null,
-	          'XX'
-	        ) : _react2.default.createElement(
-	          'div',
-	          { style: { color: (0, _constants.color)(this.props.card.num) } },
-	          '' + (0, _constants.rank)(this.props.card.num) + (0, _constants.suit)(this.props.card.num)
-	        )
+	        { className: 'card unsel' },
+	        this.props.card.hidden ? _react2.default.createElement('div', { className: 'hidden' }) : ['top-left', 'center', 'bottom-right'].map(function (cName, idx) {
+	          return _react2.default.createElement(
+	            'div',
+	            { className: cName, key: idx, style: { color: (0, _constants.color)(_this2.props.card.num) } },
+	            cName !== 'center' ? _react2.default.createElement(
+	              'span',
+	              null,
+	              (0, _constants.rank)(_this2.props.card.num),
+	              _react2.default.createElement('br', null)
+	            ) : null,
+	            '' + (0, _constants.suit)(_this2.props.card.num)
+	          );
+	        })
 	      );
 	    }
 	  }]);
@@ -30361,6 +30290,238 @@
 	StartResetButton = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(StartResetButton);
 	
 	exports.default = StartResetButton;
+
+/***/ },
+/* 286 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(48);
+	
+	var _header = __webpack_require__(264);
+	
+	var _header2 = _interopRequireDefault(_header);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    isLoggedIn: !!state.currentUser.id,
+	    whichForm: state.toggleForm
+	  };
+	};
+	
+	var mapDispatchToProps = {};
+	
+	var HeaderCont = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_header2.default);
+	
+	exports.default = HeaderCont;
+
+/***/ },
+/* 287 */,
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(48);
+	
+	var _sign_in_up_form = __webpack_require__(289);
+	
+	var _sign_in_up_form2 = _interopRequireDefault(_sign_in_up_form);
+	
+	var _actions = __webpack_require__(262);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {
+	    buttonText: 'Log in',
+	    linkText: "I don't have an account yet"
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {
+	    submitData: function submitData(data) {
+	      (0, _actions.logInUser)(data, dispatch);
+	    },
+	    demoLogIn: function demoLogIn(data) {
+	      (0, _actions.logInUser)({ username: 'demo', password: 'password' }, dispatch);
+	    },
+	    toggleForm: function toggleForm() {
+	      dispatch((0, _actions.toggleForm)());
+	    }
+	  };
+	};
+	
+	var VisibleLogInForm = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_sign_in_up_form2.default);
+	
+	exports.default = VisibleLogInForm;
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SignInUpForm = function SignInUpForm(_ref) {
+	  var submitData = _ref.submitData;
+	  var toggleForm = _ref.toggleForm;
+	  var buttonText = _ref.buttonText;
+	  var linkText = _ref.linkText;
+	  var demoLogIn = _ref.demoLogIn;
+	
+	
+	  var input = {
+	    username: '',
+	    password: ''
+	  };
+	
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'sign-in-up-form' },
+	    _react2.default.createElement(
+	      'form',
+	      { onSubmit: function onSubmit(e) {
+	          e.preventDefault();
+	          submitData({ username: input.username.value.trim(), password: input.password.value.trim() });
+	          input.username.value = '';
+	          input.password.value = '';
+	        }
+	      },
+	      _react2.default.createElement('input', {
+	        type: 'text',
+	        className: 'form-fields',
+	        placeholder: 'username',
+	        ref: function ref(e) {
+	          input.username = e;
+	        }
+	      }),
+	      _react2.default.createElement('input', {
+	        type: 'password',
+	        className: 'form-fields',
+	        placeholder: 'password',
+	        ref: function ref(e) {
+	          input.password = e;
+	        }
+	      }),
+	      _react2.default.createElement(
+	        'button',
+	        { type: 'submit' },
+	        buttonText
+	      ),
+	      _react2.default.createElement(
+	        'button',
+	        { onClick: demoLogIn },
+	        'Demo Login'
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'unsel switch-form', onClick: toggleForm },
+	      linkText
+	    )
+	  );
+	};
+	
+	exports.default = SignInUpForm;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(48);
+	
+	var _sign_in_up_form = __webpack_require__(289);
+	
+	var _sign_in_up_form2 = _interopRequireDefault(_sign_in_up_form);
+	
+	var _actions = __webpack_require__(262);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {
+	    buttonText: 'Sign up',
+	    linkText: 'I already have an account'
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {
+	    submitData: function submitData(data) {
+	      (0, _actions.createUser)(data, dispatch);
+	    },
+	    demoLogIn: function demoLogIn(data) {
+	      logInUser({ username: 'demo', password: 'password' }, dispatch);
+	    },
+	    toggleForm: function toggleForm() {
+	      dispatch((0, _actions.toggleForm)());
+	    }
+	  };
+	};
+	
+	var VisibleSignUpForm = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_sign_in_up_form2.default);
+	
+	exports.default = VisibleSignUpForm;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var toggleForm = function toggleForm() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? 'login' : arguments[0];
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case 'TOGGLE_FORM':
+	      if (action.form) return action.form;
+	      return state === 'login' ? 'signup' : 'login';
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = toggleForm;
 
 /***/ }
 /******/ ]);

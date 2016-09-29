@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Header from './header';
+import HeaderCont from '../containers/header_cont';
 
 
 class App extends Component {
@@ -7,7 +7,7 @@ class App extends Component {
   render () {
     return (
       <div>
-        <Header />
+        <HeaderCont />
         {this.props.children}
       </div>
     );

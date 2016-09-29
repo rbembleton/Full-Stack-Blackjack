@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router';
 let GameListItem = ({ game, onClick }) => {
   return (
     <div>
-      <button onClick={onClick}>
+      <button className="game-list-item" onClick={onClick}>
         {"Game #" + (game ? game.id : ' ')}<br/>
         {"Users: " + (game ? game.users : '0')}<br/>
         {"Status: " + (game ? game.status : ' ')}<br/>

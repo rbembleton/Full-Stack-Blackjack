@@ -7,7 +7,7 @@ class Main extends Component {
 
   render () {
     return (
-      <div>
+      <div className="main">
         <VisibleGameList />
         <AddGame />
       </div>
