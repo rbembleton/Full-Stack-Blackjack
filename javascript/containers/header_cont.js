@@ -6,6 +6,10 @@ const mapStateToProps = (state) => ({
   whichForm: state.toggleForm
 });
 
+const mapDispatchToProps = (dispatch, ownProps) => ({
+
+});
+
 const HeaderCont = connect(
   mapStateToProps,
   mapDispatchToProps
