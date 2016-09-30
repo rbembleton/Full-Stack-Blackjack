@@ -4,10 +4,10 @@ import VisibleDealerDisplay from '../containers/visible_dealer_display';
 
 const PlayingField = ({ game, users, dealer }) => {
   return (
-    <div style={{border: '1px solid black'}}>
+    <div className="playing-field">
       Playing Field:
-      {Object.keys(users).map((userId, idx) => <VisibleUserDisplay key={idx} userId={userId}/>)}
-      <VisibleDealerDisplay dealerId={dealer.id} />
+      <VisibleDealerDisplay myClass="dealer-display" dealerId={dealer.id} />
+      {Object.keys(users).map((userId, idx) => <VisibleUserDisplay key={idx} myClass="user-display" userId={parseInt(userId)}/>)}
     </div>
   );
 

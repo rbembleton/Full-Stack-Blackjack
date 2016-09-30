@@ -1,6 +1,11 @@
 $cardfont: 'Inder', sans-serif;
 $textfont: 'Roboto', sans-serif;
 
+$highlight-color: blue;
+$main-color: white;
+$button-box-shadow: 1px 1px 1px 1px lightgrey;
+$border: 1px solid black;
+
 #content {
   font-family: $textfont;
 
@@ -9,7 +14,7 @@ $textfont: 'Roboto', sans-serif;
     height: 40px;
     line-height: 40px;
     text-align: center;
-    border: 1px solid black;
+    border: $border;
     border-radius: 5px;
     box-shadow: 1px 1px 1px 1px lightgrey;
   }
@@ -24,7 +29,6 @@ $textfont: 'Roboto', sans-serif;
     box-shadow: 1px 0px 1px lightgrey;
     align-items: center;
     justify-content: flex-end;
-    margin-bottom: 20px;
 
     button {
       height: 30px;
@@ -63,7 +67,7 @@ $textfont: 'Roboto', sans-serif;
       }
 
       .switch-form {
-        color: blue;
+        color: $highlight-color;
         cursor: pointer;
         font-size: 14px;
       }
@@ -71,6 +75,7 @@ $textfont: 'Roboto', sans-serif;
   }
 
   .main {
+    padding: 20px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -80,7 +85,7 @@ $textfont: 'Roboto', sans-serif;
       width: 200px;
       height: 80px;
       border-radius: 10px;
-      color: blue;
+      color: $highlight-color;
     }
 
     .game-list {
@@ -114,6 +119,7 @@ $textfont: 'Roboto', sans-serif;
     position: relative;
     text-align: center;
     overflow: hidden;
+    background-color: white;
 
     .top-left {
       top: 5px;
@@ -137,11 +143,50 @@ $textfont: 'Roboto', sans-serif;
     .hidden {
       width: 100%;
       height: 100%;
-      background-image: url(http://www.publicdomainpictures.net/pictures/130000/velka/abstract-elegant-background-card-1438902900z1O.jpg);
+      background-image: image-url("card_bkg.jpg");
+      // background-image: url(http://www.publicdomainpictures.net/pictures/130000/velka/abstract-elegant-background-card-1438902900z1O.jpg);
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
     }
   }
 
+
+  .game {
+    padding: 20px;
+    min-width: 800px;
+
+    .game-stats {
+      text-align: center;
+      margin-bottom: 20px;
+      margin-top: -20px;
+    }
+
+    .start-leave-button-cont {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      button {
+        margin: 0px 10px;
+      }
+    }
+
+    .playing-field {
+      border: $border;
+
+      .player-display {
+
+      }
+
+      .dealer-display {
+        border: 1px solid blue;
+      }
+
+      .user-display {
+        border: $border;
+      }
+    }
+
+  }
 }

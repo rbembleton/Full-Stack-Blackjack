@@ -5,7 +5,7 @@ class Card extends Component {
 
   render () {
     return (
-      <div className="card unsel">
+      <div className="card unsel" draggable="true">
         {this.props.card.hidden ?
         <div className="hidden">
         </div> :

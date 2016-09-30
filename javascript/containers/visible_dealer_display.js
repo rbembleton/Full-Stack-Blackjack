@@ -7,7 +7,8 @@ const mapStateToProps = (state, ownProps) => ({
   username: 'dealer',
   hand: state.currentGame.dealer.hand,
   cards: state.currentGame.dealer.hand.cards,
-  isCurrentUser: false
+  isCurrentUser: false,
+  myClass: ownProps.myClass
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

@@ -7,7 +7,8 @@ const mapStateToProps = (state, ownProps) => ({
   username: state.currentGame.users[ownProps.userId].username,
   hand: state.currentGame.users[ownProps.userId].hand,
   cards: state.currentGame.users[ownProps.userId].hand.cards,
-  isCurrentUser: !!(ownProps.userId === state.currentUser.id)
+  isCurrentUser: (ownProps.userId === state.currentUser.id),
+  myClass: ownProps.myClass
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

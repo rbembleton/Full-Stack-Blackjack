@@ -5,7 +5,6 @@ import JoinLeaveButton from '../containers/join_leave_button';
 import VisiblePlayingField from '../containers/visible_playing_field';
 import Pusher from 'pusher-js';
 
-
 class Game extends Component {
   static propTypes = {
     game: PropTypes.object,
@@ -39,20 +38,33 @@ class Game extends Component {
     browserHistory.push('');
   }
 
+  usersList () {
+    if (this.props.users && Object.keys(this.props.users).length > 0) {
+      const numUsers = Object.keys(this.props.users).length;
+      return Object.keys(this.props.users).map((id, idx) => {
+        return (idx === 0 ? '' : (idx + 1 === numUsers ? ' and ' : ', ')) + this.props.users[id].username
+      })
+    } else {
+      return '--'
+    }
+  }
+
   render () {
     return (
-      <div>
-        <button onClick={this.backToMain}>
+      <div className="game">
+        <button className="back-button" onClick={this.backToMain}>
           {"Back"}
         </button>
-        <div>
+        <div className="game-stats">
           {"Game #" + (this.props.game ? this.props.game.id : ' ')}<br/>
-          {"Users (" + (this.props.users ? Object.keys(this.props.users).length : '0') + "): "}{(this.props.users ? Object.keys(this.props.users).map((id) => this.props.users[id].username) : '--')}<br/>
+          {"Users (" + (this.props.users ? Object.keys(this.props.users).length : '0') + "): "}{this.usersList()}<br/>
           {"Status: " + (this.props.game ? this.props.game.status : ' ')}<br/>
           {"Winner: " + (this.props.winner ? this.props.winner.username : ' ')}<br/>
         </div>
-        <StartResetButton id={this.props.game.id}/>
-        <JoinLeaveButton />
+        <div className="start-leave-button-cont">
+          <StartResetButton id={this.props.game.id}/>
+          <JoinLeaveButton />
+        </div>
         { this.props.isJoined && this.props.game.status !== 'new' ? <VisiblePlayingField /> : null }
       </div>
     );
