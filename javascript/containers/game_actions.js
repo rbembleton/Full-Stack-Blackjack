@@ -4,7 +4,7 @@ import { makeMove } from '../actions';
 
 let GameActions = ({ gameId, clickToHit, clickToStand }) => {
   return (
-    <div>
+    <div className="game-actions">
       <button onClick={() => clickToHit(gameId)}>
         Hit
       </button>

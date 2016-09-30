@@ -7,6 +7,10 @@ const Header = ({ isLoggedIn, whichForm }) => {
 
   return (
     <nav>
+      <div className="title unsel">
+        <div className="bj-logo"/>
+        <h1>Blackjack</h1>
+      </div>
       { isLoggedIn ?
         <CurrentUser /> : (
           whichForm === 'login' ?

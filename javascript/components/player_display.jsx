@@ -13,7 +13,7 @@ const PlayerDisplay = ({ game, player, username, cards, hand, isCurrentUser, myC
       </div>
       {isCurrentUser ?
         <div className='player-stats'>
-          {hand.is_busted ? 'BUSTED!' : null}
+          {hand.is_busted ? 'BUSTED! ' : null}
           {`Best Value: ${hand.best_value}, Lowest Value: ${hand.lowest_value}`}
           <GameActions />
         </div> : null}

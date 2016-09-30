@@ -1,10 +1,14 @@
 $cardfont: 'Inder', sans-serif;
 $textfont: 'Roboto', sans-serif;
 
-$highlight-color: blue;
+$highlight-color: #29b1ea;
 $main-color: white;
 $button-box-shadow: 1px 1px 1px 1px lightgrey;
 $border: 1px solid black;
+$button-gradient: linear-gradient(#8cecd1, #2057cc);
+$purple: #412da1;
+$card-box-shadow: 1px 2px 4px 0.5px #747474;
+
 
 #content {
   font-family: $textfont;
@@ -17,6 +21,7 @@ $border: 1px solid black;
     border: $border;
     border-radius: 5px;
     box-shadow: 1px 1px 1px 1px lightgrey;
+    background-color: white;
   }
 
   button:disabled {
@@ -26,7 +31,7 @@ $border: 1px solid black;
   nav {
     display: flex;
     height: 60px;
-    box-shadow: 1px 0px 1px lightgrey;
+    box-shadow: 0px 1px 10px 2px #d0d0d0;
     align-items: center;
     justify-content: flex-end;
 
@@ -36,6 +41,30 @@ $border: 1px solid black;
       width: 90px;
       margin-left: 10px;
       font-size: 14px;
+    }
+    .title {
+      position: absolute;
+      left: 20px;
+      top: 10px;
+      display: flex;
+
+      h1 {
+        display: inline-block;
+        font-family: $cardfont;
+        line-height: 40px;
+        font-size: 40px;
+        margin-left: 10px;
+      }
+
+      .bj-logo {
+        display: inline-block;
+        background-size: contain;
+        width: 40px;
+        height: 40px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: image-url("blackjack.png");
+      }
     }
 
     .welcome-user {
@@ -85,7 +114,11 @@ $border: 1px solid black;
       width: 200px;
       height: 80px;
       border-radius: 10px;
-      color: $highlight-color;
+      background-image: $button-gradient;
+      // color: $highlight-color;
+      color: white;
+      border: none;
+      font-size: 30px;
     }
 
     .game-list {
@@ -106,12 +139,12 @@ $border: 1px solid black;
 
   .card {
     font-family: $cardfont;
-    width: 120px;
-    height: 160px;
-    font-size: 20px;
+    width: 90px;
+    height: 120px;
+    font-size: 16px;
     border-radius: 10px;
     float: left;
-    box-shadow: 1px 2px 4px 0.5px #747474;
+    box-shadow: $card-box-shadow;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -124,20 +157,20 @@ $border: 1px solid black;
     .top-left {
       top: 5px;
       left: 5px;
-      line-height: 22px;
+      line-height: 18px;
       position: absolute;
     }
 
     .bottom-right {
       bottom: 5px;
       right: 5px;
-      line-height: 22px;
+      line-height: 18px;
       position: absolute;
       transform: rotate(180deg);
     }
 
     .center {
-      font-size: 60px
+      font-size: 50px;
     }
 
     .hidden {
@@ -173,18 +206,46 @@ $border: 1px solid black;
     }
 
     .playing-field {
-      border: $border;
+      // border: $border;
+      margin-top: 20px;
+      min-width: 760px;
+      border-radius: 20px;
+      padding: 10px;
+      background-image: linear-gradient(rgba(152, 173, 193, 0.43), rgba(114, 111, 136, 0.79));
 
       .player-display {
+        text-align: center;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
 
+        h2 {
+          font-size: 24px;
+          color: #ffffff;
+          text-shadow: 0px 2px 2px #acacac;
+        }
+
+        .game-actions {
+          button {
+            margin: 5px;
+            box-shadow: 1px 2px 4px 0.5px #747474;
+          }
+        }
+
+        .player-hand {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
       }
 
       .dealer-display {
-        border: 1px solid blue;
+        // border: 1px solid blue;
+        margin: auto;
       }
 
       .user-display {
-        border: $border;
+        // border: $border;
       }
     }
 
