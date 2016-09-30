@@ -211,22 +211,42 @@ $card-box-shadow: 1px 2px 4px 0.5px #747474;
       min-width: 760px;
       border-radius: 20px;
       padding: 10px;
-      background-image: linear-gradient(rgba(152, 173, 193, 0.43), rgba(114, 111, 136, 0.79));
+      background: #384186;
+      // background-image: linear-gradient(rgba(152, 173, 193, 0.43), rgba(114, 111, 136, 0.79));
+
+      .current-player {
+        box-shadow: 0px 0px 15px 2px white;
+        border-radius: 50px;
+        background: rgba(149, 167, 221, 0.3);
+      }
 
       .player-display {
         text-align: center;
         width: 300px;
         display: flex;
         flex-direction: column;
+        padding: 10px;
+        color: white;
+        margin: 10px;
 
         h2 {
           font-size: 24px;
-          color: #ffffff;
+          font-family: $cardfont;
           text-shadow: 0px 2px 2px #acacac;
+        }
+
+        strong {
+          font-weight: bold;
+          color: $purple;
         }
 
         .game-actions {
           button {
+            background-image: $button-gradient;
+            border: none;
+            width: 70px;
+            height: 30px;
+            line-height: 30px;
             margin: 5px;
             box-shadow: 1px 2px 4px 0.5px #747474;
           }
