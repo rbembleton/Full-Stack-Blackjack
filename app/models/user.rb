@@ -37,6 +37,8 @@ class User < ActiveRecord::Base
 
   def leave
     self.hand.destroy if self.hand
+    return unless self.game_id
+    
     g = Game.find(self.game_id)
     self.update!(game_id: nil, order_in_game: nil)
     g.destroy! if g.users.count == 0
