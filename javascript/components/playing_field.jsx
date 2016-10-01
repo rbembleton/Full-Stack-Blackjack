@@ -11,7 +11,7 @@ const PlayingField = ({ game, users, dealer }) => {
     const numUsers = Object.keys(users).length
 
     return (
-      <div className="users-display">
+      <div className="users-playing-field-display">
         <div className="first-row">
           {numUsers > 1 ? userMap.slice(0, 1).concat(userMap.slice(-1)) : userMap[0]}
         </div>

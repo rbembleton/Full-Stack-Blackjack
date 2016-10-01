@@ -2,8 +2,8 @@ import React from 'react';
 import GameActions from '../containers/game_actions';
 import Card from './card';
 
-const PlayerDisplay = ({ game, player, username, cards, hand, isCurrentUser, myClass, isCurrentPlayer }) => {
-  // debugger
+const PlayerDisplay = ({ game, player, username, cards, hand,
+  myClass, isCurrentUser, isCurrentPlayer, isWinner }) => {
 
   return (
     <div className={`player-display ${myClass} ${isCurrentPlayer ? 'current-player' : ''} clearfix`}>
@@ -17,6 +17,7 @@ const PlayerDisplay = ({ game, player, username, cards, hand, isCurrentUser, myC
           {`Best Value: ${hand.best_value}, Lowest Value: ${hand.lowest_value}`}
           {isCurrentPlayer ? <GameActions /> : null}
         </div> : null}
+      {isWinner && game.status === 'finished' ? <div className="winner-status unsel">WINNER</div> : null}
     </div>
   );
 
