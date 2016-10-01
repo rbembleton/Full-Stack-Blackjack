@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926223039) do
+ActiveRecord::Schema.define(version: 20161001014223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,9 +49,10 @@ ActiveRecord::Schema.define(version: 20160926223039) do
   create_table "games", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "turn_id",    default: 0
+    t.integer  "turn_id",        default: 0
     t.string   "turn_type"
-    t.string   "status",     default: "new"
+    t.string   "status",         default: "new"
+    t.integer  "next_order_num", default: 0,     null: false
   end
 
   add_index "games", ["turn_id", "turn_type"], name: "index_games_on_turn_id_and_turn_type", using: :btree
@@ -68,6 +69,7 @@ ActiveRecord::Schema.define(version: 20160926223039) do
     t.string  "session_token",   null: false
     t.string  "password_digest", null: false
     t.integer "game_id"
+    t.integer "order_in_game"
   end
 
   add_index "users", ["session_token"], name: "index_users_on_session_token", unique: true, using: :btree

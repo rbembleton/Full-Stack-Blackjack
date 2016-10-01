@@ -1,5 +1,5 @@
 json.hand do
-  json.cards hand.cards do |card|
+  json.cards hand.ordered_cards do |card|
     json.(card, :id, :hidden)
     if !card.hidden || (hand.player_type == 'User' && hand.player_id == current_user.id)
       json.(card, :name, :num)

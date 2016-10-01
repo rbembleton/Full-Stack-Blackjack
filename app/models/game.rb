@@ -2,12 +2,13 @@
 #
 # Table name: games
 #
-#  id         :integer          not null, primary key
-#  created_at :datetime
-#  updated_at :datetime
-#  turn_id    :integer          default(0)
-#  turn_type  :string
-#  status     :string           default("new")
+#  id             :integer          not null, primary key
+#  created_at     :datetime
+#  updated_at     :datetime
+#  turn_id        :integer          default(0)
+#  turn_type      :string
+#  status         :string           default("new")
+#  next_order_num :integer          default(0), not null
 #
 
 class Game < ActiveRecord::Base
@@ -25,7 +26,11 @@ class Game < ActiveRecord::Base
   end
 
   def players
-    return self.users + Dealer.where(game_id: self.id)
+    ordered_users + Dealer.where(game_id: self.id)
+  end
+
+  def ordered_users
+    self.users.order(:order_in_game)
   end
 
   def current_player
@@ -46,7 +51,7 @@ class Game < ActiveRecord::Base
   def start
     return if self.users.count == 0
     self.reload
-    self.update!(turn_id: self.users.first.id, turn_type: 'User', status: 'started')
+    self.update!(turn_id: self.ordered_users.first.id, turn_type: 'User', status: 'started')
     d, dp, dlr = self.deck, self.discard_pile, self.dealer
 
     self.players.each do |player|

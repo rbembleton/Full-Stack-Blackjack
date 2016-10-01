@@ -7,6 +7,7 @@
 #  session_token   :string           not null
 #  password_digest :string           not null
 #  game_id         :integer
+#  order_in_game   :integer
 #
 
 class User < ActiveRecord::Base
@@ -27,14 +28,17 @@ class User < ActiveRecord::Base
   ## METHODS
 
   def join(game_id)
-    self.hand.destroy if self.hand
     self.leave() if self.game_id != nil
-    self.update!(game_id: game_id)
+    g = Game.find(game_id)
+    ord = g.next_order_num
+    self.update!(game_id: game_id, order_in_game: ord)
+    g.update!(next_order_num: ord + 1)
   end
 
   def leave
+    self.hand.destroy if self.hand
     g = Game.find(self.game_id)
-    self.update!(game_id: nil)
+    self.update!(game_id: nil, order_in_game: nil)
     g.destroy! if g.users.count == 0
   end
 

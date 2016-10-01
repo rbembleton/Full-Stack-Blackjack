@@ -44,15 +44,6 @@ class Api::UsersController < ApplicationController
 
   private
 
-  def broadcast_game_update(game_id)
-    return unless game_id
-    Pusher.trigger(
-      "game_channel_#{game_id}",
-      'update_game',
-      {}
-    )
-  end
-
   def sign_up_params
     params.require(:user).permit(
       :password,
