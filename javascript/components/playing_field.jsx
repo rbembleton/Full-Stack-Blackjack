@@ -5,10 +5,10 @@ import VisibleDealerDisplay from '../containers/visible_dealer_display';
 const PlayingField = ({ game, users, dealer }) => {
 
   function playerMap () {
-    const userMap = Object.keys(users).map((userId, idx) => {
-      return <VisibleUserDisplay key={idx} myClass="user-display" userId={parseInt(userId)}/>;
+    const userMap = users.map((user, idx) => {
+      return <VisibleUserDisplay key={idx} myClass="user-display" userId={user.id}/>;
     });
-    const numUsers = Object.keys(users).length
+    const numUsers = users.length
 
     return (
       <div className="users-playing-field-display">

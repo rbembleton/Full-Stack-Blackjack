@@ -8,7 +8,7 @@ import Pusher from 'pusher-js';
 class Game extends Component {
   static propTypes = {
     game: PropTypes.object,
-    users: PropTypes.object,
+    users: PropTypes.array,
     isJoined: PropTypes.bool,
     winner: PropTypes.object,
     updateGame: PropTypes.func
@@ -39,10 +39,10 @@ class Game extends Component {
   }
 
   usersList () {
-    if (this.props.users && Object.keys(this.props.users).length > 0) {
-      const numUsers = Object.keys(this.props.users).length;
-      return Object.keys(this.props.users).map((id, idx) => {
-        return (idx === 0 ? '' : (idx + 1 === numUsers ? ' and ' : ', ')) + this.props.users[id].username
+    if (this.props.users && this.props.users.length > 0) {
+      const numUsers = this.props.users.length;
+      return this.props.users.map((user, idx) => {
+        return (idx === 0 ? '' : (idx + 1 === numUsers ? ' and ' : ', ')) + user.username
       })
     } else {
       return '--'
@@ -57,7 +57,7 @@ class Game extends Component {
         </button>
         <div className="game-stats">
           {"Game #" + (this.props.game ? this.props.game.id : ' ')}<br/>
-          {"Users (" + (this.props.users ? Object.keys(this.props.users).length : '0') + "): "}{this.usersList()}<br/>
+          {"Users (" + (this.props.users ? this.props.users.length : 0) + "): "}{this.usersList()}<br/>
           {"Status: " + (this.props.game ? this.props.game.status : ' ')}<br/>
           {"Winner: " + (this.props.winner ? this.props.winner.username : ' ')}<br/>
         </div>

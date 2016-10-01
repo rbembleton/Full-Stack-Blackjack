@@ -37,7 +37,7 @@ json.dealer do
   end
 end
 
-json.users @game.users do |user|
+json.users @game.ordered_users do |user|
   json.partial! 'api/users/user', user: user
   if user.hand
     json.partial! 'api/games/hand', hand: user.hand, current_user: current_user
