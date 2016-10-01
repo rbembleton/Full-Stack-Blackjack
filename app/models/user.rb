@@ -28,11 +28,14 @@ class User < ActiveRecord::Base
 
   def join(game_id)
     self.hand.destroy if self.hand
+    self.leave() if self.game_id != nil
     self.update!(game_id: game_id)
   end
 
   def leave
+    g = Game.find(self.game_id)
     self.update!(game_id: nil)
+    g.destroy! if g.users.count == 0
   end
 
   def hit_me
