@@ -8,7 +8,7 @@ $button-box-shadow: 1px 1px 1px 1px lightgrey;
 $border: 1px solid black;
 $button-gradient: linear-gradient(#8cecd1, #2057cc);
 $purple: #412da1;
-$card-box-shadow: 1px 2px 4px 0.5px #747474;
+$card-box-shadow: 1px 2px 4px 0.5px #313131;
 
 
 #content {
@@ -138,22 +138,40 @@ $card-box-shadow: 1px 2px 4px 0.5px #747474;
   }
 
 
+  .deck {
+    width: 100px;
+    height: 130px;
+    position: relative;
+    display: block;
+    margin-top: 8px;
+    margin-right: 20px;
+    align-self: flex-start;
+
+    .card-back {
+      background-image: image-url("card_bkg.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      width: 90px;
+      height: 120px;
+      position: absolute;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0px 1px 1px 0.5px #313131;
+    }
+  }
+
+
   .card {
     font-family: $cardfont;
     width: 90px;
     height: 120px;
     font-size: 16px;
-    border-radius: 10px;
     float: left;
-    box-shadow: $card-box-shadow;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10px;
+    // box-shadow: $card-box-shadow;
     position: relative;
-    text-align: center;
-    overflow: hidden;
-    background-color: white;
+    perspective: 1000px;
+    margin: 10px;
 
     .top-left {
       top: 5px;
@@ -174,21 +192,54 @@ $card-box-shadow: 1px 2px 4px 0.5px #747474;
       font-size: 50px;
     }
 
-    .hidden {
-      width: 100%;
-      height: 100%;
+    .card-back {
       background-image: image-url("card_bkg.jpg");
-      // background-image: url(http://www.publicdomainpictures.net/pictures/130000/velka/abstract-elegant-background-card-1438902900z1O.jpg);
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
+      z-index: 2;
+      transform: rotateY(180deg);
     }
+
+    .card-front {
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      transform: rotateY(0deg);
+    }
+
+    .card-front, .card-back {
+      width: 90px;
+      height: 120px;
+      backface-visibility: hidden;
+      top: 0px;
+      left: 0px;
+      position: absolute;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: $card-box-shadow;
+    }
+
+    .flipper {
+      width: 100%;
+      height: 100%;
+	    transition: 0.6s;
+	    transform-style: preserve-3d;
+	    position: relative;
+    }
+
+  }
+
+  .card.is-flipped .flipper, .card-front, .card-back {
+	   transform: rotateY(180deg);
   }
 
 
   .game {
     padding: 20px;
-    min-width: 800px;
+    min-width: 900px;
 
     .game-stats {
       text-align: center;
@@ -207,13 +258,18 @@ $card-box-shadow: 1px 2px 4px 0.5px #747474;
     }
 
     .playing-field {
-      // border: $border;
       margin-top: 20px;
-      min-width: 760px;
+      min-width: 860px;
       border-radius: 20px;
       padding: 10px;
       background: #384186;
-      // background-image: linear-gradient(rgba(152, 173, 193, 0.43), rgba(114, 111, 136, 0.79));
+
+      .dealer-row {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+
+      }
 
       .users-playing-field-display {
         margin-top: -20px;
@@ -252,7 +308,10 @@ $card-box-shadow: 1px 2px 4px 0.5px #747474;
         h2 {
           font-size: 24px;
           font-family: $headingfont;
-          // text-shadow: 0px 2px 2px #acacac;
+
+          .current-user-light {
+            font-size: 20px;
+          }
         }
 
         strong {
@@ -281,7 +340,6 @@ $card-box-shadow: 1px 2px 4px 0.5px #747474;
         .winner-status {
           position: absolute;
           z-index: 5;
-          // color: yellow;
           color: #00ffb0;
           font-size: 70px;
           top: 55px;
@@ -291,15 +349,34 @@ $card-box-shadow: 1px 2px 4px 0.5px #747474;
           padding: 5px 20px;
           background-color: rgba(0, 0, 0, 0.8);
         }
+
+        .winner-status.min-banner {
+          transform: scale(0.0, 0.0) rotate(1200deg);
+        }
+
+        .winner-status.show-banner {
+          transform: scale(1.0, 1.0) rotate(-10deg);
+          transition: 1s ease-in-out;
+        }
       }
 
       .dealer-display {
-        // border: 1px solid blue;
-        margin: auto;
+        width: 520px;
+
+        .player-hand {
+          width: 520px;
+          justify-content: flex-start;
+          padding-left: 50px;
+        }
+
+        .winner-status {
+          top: 55px;
+          left: 120px;
+        }
+        // margin: auto;
       }
 
       .user-display {
-        // border: $border;
       }
     }
 

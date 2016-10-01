@@ -27,7 +27,9 @@ const PlayingField = ({ game, users, dealer }) => {
 
   return (
     <div className="playing-field">
-      <VisibleDealerDisplay myClass="dealer-display" dealerId={dealer.id} />
+      <div className="dealer-row">
+        <VisibleDealerDisplay myClass="dealer-display" dealerId={dealer.id} />
+      </div>
       {playerMap()}
     </div>
   );

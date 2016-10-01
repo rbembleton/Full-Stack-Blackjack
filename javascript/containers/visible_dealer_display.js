@@ -8,8 +8,10 @@ const mapStateToProps = (state, ownProps) => ({
   hand: state.currentGame.dealer.hand,
   cards: state.currentGame.dealer.hand.cards,
   myClass: ownProps.myClass,
+  isDealer: true,
   isCurrentUser: false,
-  isWinner: (state.currentGame.winner && state.currentGame.winner.type === 'Dealer')
+  isWinner: (state.currentGame.winner && state.currentGame.winner.type === 'Dealer'),
+  isInPlay: state.currentGame.status !== 'new' && state.currentGame.status !== 'cleared'
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

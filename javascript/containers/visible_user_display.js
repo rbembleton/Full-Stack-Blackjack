@@ -12,7 +12,8 @@ const mapStateToProps = (state, ownProps) => ({
   myClass: ownProps.myClass,
   isCurrentUser: (ownProps.userId === state.currentUser.id),
   isCurrentPlayer: (state.currentGame.currentPlayer.type === 'User' && ownProps.userId === state.currentGame.currentPlayer.id),
-  isWinner: (state.currentGame.winner && state.currentGame.winner.type === 'User' && ownProps.userId === state.currentGame.winner.id)
+  isWinner: (state.currentGame.winner && state.currentGame.winner.type === 'User' && ownProps.userId === state.currentGame.winner.id),
+  isInPlay: state.currentGame.status !== 'new' && state.currentGame.status !== 'cleared'
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
