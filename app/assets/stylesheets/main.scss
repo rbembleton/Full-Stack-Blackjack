@@ -220,6 +220,18 @@ $card-box-shadow: 1px 2px 4px 0.5px #747474;
         background: rgba(149, 167, 221, 0.3);
       }
 
+      .first-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+
+      .second-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+      }
+
       .player-display {
         text-align: center;
         width: 300px;
