@@ -42,16 +42,6 @@ class PlayerDisplay extends Component {
     });
   }
 
-  componentWillReceiveProps (newProps) {
-    if (newProps.isWinner === true && !(this.props.isWinner && this.props.game.status === 'finished')) {
-      this.setState({ winnerBanner: 'min-banner' });
-      let that = this;
-      this.bannerTimeout = setTimeout(() => {
-        that.setState({ winnerBanner: 'show-banner' });
-      }, 100);
-    }
-  }
-
   componentWillUnmount () {
     clearTimeout(this.bannerTimeout);
     removeEventListener('resize', this.updateMyOffset.bind(this));
@@ -85,6 +75,14 @@ class PlayerDisplay extends Component {
       this.flipTimeout = setTimeout(() => {
         that.setState({ numCards: newLength });
       }, 50);
+    }
+
+    if (newProps.isWinner === true && !(this.props.isWinner && this.props.game.status === 'finished')) {
+      this.setState({ winnerBanner: 'min-banner' });
+      let that = this;
+      this.bannerTimeout = setTimeout(() => {
+        that.setState({ winnerBanner: 'show-banner' });
+      }, 100);
     }
   }
 
