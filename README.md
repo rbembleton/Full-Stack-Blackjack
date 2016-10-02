@@ -17,6 +17,7 @@
   - Containers and Components
   - Flexbox
   - SCSS
+  - CSS3 Animations
 - Pusher
 - CRUD
 - OOP
