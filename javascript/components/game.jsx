@@ -56,10 +56,11 @@ class Game extends Component {
           {"Back"}
         </button>
         <div className="game-stats">
-          {"Game #" + (this.props.game ? this.props.game.id : ' ')}<br/>
+          {"Game #" + (this.props.game && this.props.game.id ? this.props.game.id : '--')}<br/>
           {"Users (" + (this.props.users ? this.props.users.length : 0) + "): "}{this.usersList()}<br/>
-          {"Status: " + (this.props.game ? this.props.game.status : ' ')}<br/>
-          {"Winner: " + (this.props.winner ? this.props.winner.username : ' ')}<br/>
+        {"Status: " + (this.props.game &&  this.props.game.status ? this.props.game.status : '--')}<br/>
+          {"Winner: " + (this.props.game && this.props.game.status === 'finished' &&
+            this.props.winner ? this.props.winner.username : "--")}<br/>
         </div>
         <div className="start-leave-button-cont">
           <StartResetButton id={this.props.game.id}/>

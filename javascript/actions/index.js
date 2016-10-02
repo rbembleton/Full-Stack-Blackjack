@@ -120,7 +120,8 @@ export function leaveGame (data, dispatch) {
     data: {user: { game_id: data.gameId, action_type: 'leave' }},
     success (resp) {
       dispatch(updateCurrentUser(resp));
-      fetchGame(data.gameId, dispatch);
+      fetchAllGames(dispatch);
+      // fetchGame(data.gameId, dispatch);
     }
   });
 }

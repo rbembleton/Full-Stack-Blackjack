@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { joinGame, leaveGame } from '../actions';
+import { browserHistory } from 'react-router';
 
 let JoinLeaveButton = ({ userId, gameId, isJoined, isStarted, onClickJoin, onClickLeave }) => {
   return (
@@ -19,7 +20,7 @@ const mapStateToProps = (state, ownProps) => ({
   gameId: state.currentGame.id,
   isStarted: state.currentGame.status === 'started',
   isJoined: state.currentGame.users ?
-    !!(state.currentGame.users[state.currentUser.id]) :
+    !!(state.currentGame.users.find((user) => user.id === state.currentUser.id)) :
     false
 });
 
@@ -29,6 +30,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   onClickLeave: (data) => {
     leaveGame(data, dispatch);
+    browserHistory.push('/');
   }
 });
 
