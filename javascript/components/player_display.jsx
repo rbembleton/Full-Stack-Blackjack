@@ -29,6 +29,7 @@ class PlayerDisplay extends Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.updateMyOffset.bind(this));
+    this.initialUpdateOffestTimeout = setTimeout(this.updateMyOffset.bind(this), 5000);
     this.updateMyOffset();
   }
 
@@ -43,6 +44,7 @@ class PlayerDisplay extends Component {
   }
 
   componentWillUnmount () {
+    clearTimeout(this.initialUpdateOffestTimeout);
     clearTimeout(this.bannerTimeout);
     removeEventListener('resize', this.updateMyOffset.bind(this));
   }

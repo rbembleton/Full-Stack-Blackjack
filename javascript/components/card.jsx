@@ -21,22 +21,14 @@ class Card extends Component {
   }
 
   componentDidMount () {
-    // const myRect = ReactDOM.findDOMNode(this).getBoundingClientRect();
-    // [myRect.left, myRect.top]
-    // console.log([myRect.left - this.props.deckPos[0], myRect.top - this.props.deckPos[1]]);
     this.setState({
       newCard: false,
       flipped: true,
-      // position: [myRect.left - this.props.deckPos[0], myRect.top - this.props.deckPos[1]]
       position: [
         this.props.deckPos[0] - this.props.playerOffset[0] - 10,
         this.props.deckPos[1] - this.props.playerOffset[1] - 52
       ]
     })
-    console.log([
-      this.props.deckPos[0] - this.props.playerOffset[0] - 10,
-      this.props.deckPos[1] - this.props.playerOffset[1] - 52
-    ]);
 
     let that = this;
     this.updatePosTimeout = setTimeout(() => {

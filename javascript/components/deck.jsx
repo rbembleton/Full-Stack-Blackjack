@@ -9,6 +9,7 @@ class Deck extends Component {
 
   componentDidMount () {
     window.addEventListener('resize', this.updateDeckPos.bind(this));
+    this.initialUpdateDeckPosTimeout = setTimeout(this.updateDeckPos.bind(this), 5000);
     this.updateDeckPos();
   }
 
@@ -18,6 +19,7 @@ class Deck extends Component {
   }
 
   componentWillUnmount () {
+    clearTimeout(this.initialUpdateOffestTimeout);
     removeEventListener('resize', this.updateDeckPos.bind(this));
   }
 
