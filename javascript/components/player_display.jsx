@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import GameActions from '../containers/game_actions';
-import Card from './card';
-import Deck from './deck';
+import VisibleCard from '../containers/visible_card';
+import VisibleDeck from '../containers/visible_deck';
 
 class PlayerDisplay extends Component {
   static propTypes = {
@@ -19,7 +20,26 @@ class PlayerDisplay extends Component {
 
   constructor (props) {
     super(props);
-    this.state = { winnerBanner: this.props.isWinner ? 'show-banner' : 'hide-banner' };
+    this.state = {
+      winnerBanner: this.props.isWinner ? 'show-banner' : 'hide-banner',
+      numCards: this.props.cards.length,
+      myOffset: [0,0]
+    };
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateMyOffset.bind(this));
+    this.updateMyOffset();
+  }
+
+  updateMyOffset () {
+    const myRect = ReactDOM.findDOMNode(this).getBoundingClientRect();
+    this.setState({
+      myOffset: [
+        (this.props.isDealer ? myRect.left + 200 : myRect.left),
+        (this.props.isDealer ? myRect.top + 10 : myRect.top)
+      ]
+    });
   }
 
   componentWillReceiveProps (newProps) {
@@ -34,6 +54,38 @@ class PlayerDisplay extends Component {
 
   componentWillUnmount () {
     clearTimeout(this.bannerTimeout);
+    removeEventListener('resize', this.updateMyOffset.bind(this));
+  }
+
+  displayHand () {
+    const numCards = this.props.cards.length;
+    // const totalSize = (400 - (numCards * 90 + (numCards - 1) * 10));
+    const start = this.props.isDealer ? 0 : (
+      numCards > 4 ? 0 : (400 - (numCards * 90 + (numCards - 1) * 10)) / 2
+    );
+    const idxMod = numCards > 4 ? 310 / (numCards - 1) : 100;
+
+    return this.props.cards.map((card, idx) => {
+      let top = 0;
+      let left = idx * idxMod + start;
+      return <VisibleCard
+        key={card.id}
+        card={card}
+        newCard={idx + 1 > this.state.numCards}
+        playerOffset={this.state.myOffset}
+        position={[left, top]}/>;
+    })
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.cards.length !== this.props.cards.length) {
+      const newLength = newProps.cards.length;
+      this.setState({ numCards: this.props.cards.length });
+      let that = this;
+      this.flipTimeout = setTimeout(() => {
+        that.setState({ numCards: newLength });
+      }, 50);
+    }
   }
 
   render () {
@@ -43,10 +95,17 @@ class PlayerDisplay extends Component {
           {this.props.isCurrentUser ? <span className="current-user-light">{"🔵 "}</span> : null}
           {this.props.username}
         </h2>
-        <div className="player-hand clearfix">
-          {this.props.isDealer ? <Deck /> : null}
-          {this.props.cards.map((card, idx) => <Card key={idx} card={card} />)}
-        </div>
+        {this.props.isDealer ?
+          <div className="dealer-cont">
+            <VisibleDeck />
+            <div className="player-hand clearfix">
+              {this.displayHand()}
+            </div>
+          </div> :
+          <div className="player-hand clearfix">
+            {this.displayHand()}
+          </div>
+        }
         {this.props.isCurrentUser && this.props.isInPlay  ?
           <div className='player-stats'>
             {this.props.hand.is_busted ? <strong>BUSTED! </strong> : null}

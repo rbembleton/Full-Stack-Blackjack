@@ -138,11 +138,12 @@ $card-box-shadow: 1px 2px 4px 0.5px #313131;
   }
 
 
-  .deck {
+  #deck {
     width: 100px;
     height: 130px;
     position: relative;
-    display: block;
+    display: inline-block;
+    float: left;
     margin-top: 8px;
     margin-right: 20px;
     align-self: flex-start;
@@ -169,9 +170,10 @@ $card-box-shadow: 1px 2px 4px 0.5px #313131;
     font-size: 16px;
     float: left;
     // box-shadow: $card-box-shadow;
-    position: relative;
+    position: absolute;
     perspective: 1000px;
-    margin: 10px;
+    // margin: 10px;
+    transition: all 1s ease-in-out;
 
     .top-left {
       top: 5px;
@@ -332,9 +334,12 @@ $card-box-shadow: 1px 2px 4px 0.5px #313131;
         }
 
         .player-hand {
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          position: relative;
+          height: 140px;
+          margin-top: 10px;
+          // display: flex;
+          // align-items: center;
+          // justify-content: center;
         }
 
         .winner-status {
@@ -361,18 +366,25 @@ $card-box-shadow: 1px 2px 4px 0.5px #313131;
       }
 
       .dealer-display {
-        width: 520px;
-
-        .player-hand {
-          width: 520px;
-          justify-content: flex-start;
-          padding-left: 50px;
-        }
+        width: 540px;
 
         .winner-status {
           top: 55px;
           left: 120px;
         }
+      }
+
+      .dealer-cont {
+        width: 520px;
+        margin-top: 10px;
+        padding-left: 80px;
+
+        .player-hand {
+          float: left;
+          display: inline-block;
+        }
+
+
         // margin: auto;
       }
 

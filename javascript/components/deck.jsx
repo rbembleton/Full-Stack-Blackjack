@@ -1,11 +1,29 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 // import Card from './card';
 
 class Deck extends Component {
+  static propTypes = {
+    updateDeckPos: PropTypes.func
+  }
+
+  componentDidMount () {
+    window.addEventListener('resize', this.updateDeckPos.bind(this));
+    this.updateDeckPos();
+  }
+
+  updateDeckPos () {
+    const myRect = ReactDOM.findDOMNode(this).getBoundingClientRect();
+    this.props.updateDeckPos([myRect.left, myRect.top])
+  }
+
+  componentWillUnmount () {
+    removeEventListener('resize', this.updateDeckPos.bind(this));
+  }
 
   render () {
     return (
-      <div className="deck">
+      <div id="deck">
         <div className="card-back" style={{ top: '4px', left: '4px' }}/>
         <div className="card-back" style={{ top: '3px', left: '3px' }}/>
         <div className="card-back" style={{ top: '2px', left: '2px' }}/>

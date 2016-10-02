@@ -18,6 +18,11 @@ export const toggleForm = (form) => ({
   form: form
 });
 
+export const updateDeck = (pos) => ({
+  type: 'UPDATE_DECK_POSITION',
+  newPosition: pos
+});
+
 
 export function fetchGame (id, dispatch) {
   $.ajax({
